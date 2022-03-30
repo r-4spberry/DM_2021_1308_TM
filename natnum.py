@@ -140,7 +140,7 @@ def nat_sub(n1, n2):
     
     n1.remove_leading_zeros()
     
-    return n1
+    return 0
     
 
 def nat_cmp(n1,n2):
