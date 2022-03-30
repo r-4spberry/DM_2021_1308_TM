@@ -126,8 +126,6 @@ def nat_sub(n1, n2):
     return n1 - n2
     '''
     
-    #raise NotImplementedError
-    
     if nat_cmp(n1, n2) == 1:
         raise ValueError("n1 должно быть больше n2")
 
