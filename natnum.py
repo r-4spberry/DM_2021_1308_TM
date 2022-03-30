@@ -86,7 +86,7 @@ class natural_number:
         if type(self) == type(other):
             return self.digits == other.digits
         else:
-            raise TypeError("Can't compare two natural number to not-natural'")
+            raise TypeError("Can't compare a natural number to a not-natural'")
 
     def remove_leading_zeros(self):
         while self.digits[-1] == 0 and len(self.digits) > 1:
@@ -140,7 +140,7 @@ def nat_sub(n1, n2):
     
     n1.remove_leading_zeros()
     
-    return 0
+    return n1
     
 
 def nat_cmp(n1,n2):
