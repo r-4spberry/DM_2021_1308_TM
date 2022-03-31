@@ -1,4 +1,5 @@
 from typing import List
+import copy
 
 class natural_number:
     ''' 
@@ -85,20 +86,26 @@ class natural_number:
     def __eq__(self, other):
         if type(self) == type(other):
             return self.digits == other.digits
+        if type(other) == int:
+            return self.digits == natural_number(other).digits
         else:
-            raise TypeError("Can't compare a natural number to a not-natural'")
+            raise TypeError("Can't compare a natural number to this type'")
 
     def remove_leading_zeros(self):
         while self.digits[-1] == 0 and len(self.digits) > 1:
             self.digits.pop()
-
+             
 def nat_sum(n1, n2):
     '''
     ADD_NN_N
     Складывает два натуральных числа
     Выполнил: Томилов Даниил
     '''
-    if nat_cmp(n1, n2):
+    
+    n1 = copy.deepcopy(n1)
+    n2 = copy.deepcopy(n2)
+    
+    if nat_cmp(n1, n2) == 2:
         n1, n2 = n2, n1
     
     n2.digits.append(0)
@@ -122,9 +129,13 @@ def nat_sub(n1, n2):
     '''
     SUB_NN_N
     Вычитание из большего натурального меньшее
+    
     n1 > n2
     return n1 - n2
     '''
+    
+    n1 = copy.deepcopy(n1)
+    n2 = copy.deepcopy(n2)
     
     if nat_cmp(n1, n2) == 1:
         raise ValueError("n1 должно быть больше n2")
@@ -147,19 +158,24 @@ def nat_cmp(n1,n2):
     '''
     COM_NN_D
     Сравнение двух чисел
+    
     return 0: n1 == n2
     return 1: n1 < n2
     return 2: n1 > n2
     Выполнил: Томилов Даниил
     '''
     
+    n1 = copy.deepcopy(n1)
+    n2 = copy.deepcopy(n2)
+    
     if len(n1.digits) > len(n2.digits):
         return 2
     elif len(n1.digits) < len(n2.digits):
         return 1
     else:
-        i = len(n1.digits)-1
         
+        i = len(n1.digits)-1
+    
         if n1.digits == n2.digits:
             return 0
         
@@ -168,3 +184,86 @@ def nat_cmp(n1,n2):
             i -= 1
 
         return 2 if n1.digits[i] > n2.digits[i] else 1
+
+def mul_nat_by_digit(n, d):
+    '''
+    MUL_ND_N
+    Умножение натурального числа на однозначное (цифру)
+    
+    n: natural_number
+    d: int, 0 <= d < 10
+    Выполнил: Томилов Даниил
+    '''
+    
+    n = copy.deepcopy(n)
+    if type(n) is not natural_number:
+        raise TypeError('n must be a natural number')
+    if type(d) is not int:
+        raise TypeError('d must be an integer')
+    if d < 0 or d > 10:
+        raise ValueError('d must be a digit')
+    
+    n.digits.append(0)
+    rem = 0
+    
+    for i in range(len(n.digits)-1):
+        n.digits[i] = n.digits[i]*d+rem
+        rem = n.digits[i]//10
+        n.digits[i] %= 10
+    n.digits[-1] += rem
+    n.remove_leading_zeros()
+    
+    return n
+
+def mul_nat_by_10_pow(n, k):
+    '''
+    MUL_Nk_N
+    Умножение натурального числа на 10^k
+    
+    n: natural_number
+    k: integer or natual_number
+    Выполнил: Томилов Даниил
+    '''
+    
+    if type(n) is not natural_number:
+        raise TypeError('n must be a natural number')
+    if type(k) is not natural_number and type(k) is not int:
+        raise TypeError('k must be a natural number or an integer')
+    
+    if type(k) is int:
+        k = natural_number(k) 
+    
+    n = copy.deepcopy(n)
+    k = copy.deepcopy(k)
+    
+    while k != 0:
+        n.digits.insert(0, 0)
+        k = nat_sub(k, natural_number(1))
+    
+    n.remove_leading_zeros()
+    
+    return n
+
+def mul_nat(n1, n2):
+    """
+    Умножение натурального n1 на n2
+
+    Выполнил: Томилов Даниил
+    """
+    
+    if type(n1) is not natural_number:
+        raise TypeError('n1 must be a natural number')
+    if type(n2) is not natural_number:
+        raise TypeError('n2 must be a natural number')
+    
+    n1 = copy.deepcopy(n1)
+    n2 = copy.deepcopy(n2)
+    
+    ans = natural_number()
+    
+    for i in range(len(n2.digits)):
+        t = mul_nat_by_digit(n1, n2.digits[i])
+        t = mul_nat_by_10_pow(t, i)
+        ans = nat_sum(ans, t)
+        
+    return ans
