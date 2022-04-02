@@ -1,7 +1,7 @@
 from logging import raiseExceptions
 from typing import List
 import copy
-
+import cProfile
 class NaturalNumber:
     """ 
     Натуральное число.
@@ -61,13 +61,18 @@ class NaturalNumber:
         
         Выполнил: Томилов Даниил
         """
-        
+
+        #Добавление разряда
         self.digits.append(0)
+        
         self.digits[0] += 1
+
+        #Перенос единицы в старшие разряды, при надобности.
         for i in range(len(self.digits)-1):
             self.digits[i+1] += self.digits[i]//10
             self.digits[i] %= 10
 
+        #Удаление лишнего разряда, если он ен понадобился
         if self.digits[-1] == 0:
             self.digits.pop()
 
@@ -109,19 +114,23 @@ def nat_sum(n1, n2):
     Выполнил: Томилов Даниил
     """
     
-    n1 = copy.deepcopy(n1)
-    n2 = copy.deepcopy(n2)
-    
+    n1 = NaturalNumber(str(n1))
+    n2 = NaturalNumber(str(n2))
+
+    #Ставим числа в убывающем порядке
     if nat_cmp(n1, n2) == 2:
         n1, n2 = n2, n1
     
     n2.digits.append(0)
-    
+
+    #Складывание чисел поциферно
     for i in range(len(n1.digits)):
         n2.digits[i] = n2.digits[i]+n1.digits[i]
+        #Перенос в старший разряд
         n2.digits[i+1] += n2.digits[i] // 10
         n2.digits[i] %= 10
 
+    #Перенос в старший разряд у следующих цифр
     while i < len(n2.digits)-1:
         n2.digits[i+1] += n2.digits[i] // 10
         n2.digits[i] %= 10
@@ -142,19 +151,21 @@ def nat_sub(n1, n2):
     Выполнил: Томилов Даниил
     """
     
-    n1 = copy.deepcopy(n1)
-    n2 = copy.deepcopy(n2)
+    n1 = NaturalNumber(str(n1))
+    n2 = NaturalNumber(str(n2))
     
     if nat_cmp(n1, n2) == 1:
         raise ValueError("n1 должно быть больше n2")
 
+    #Добавление к n2 ведущих нулей
     while len(n2.digits) < len(n1.digits):
         n2.digits.append(0)
     
     for i in range(len(n1.digits)):
-        if n1.digits[i] < n2.digits[i]:
+        if n1.digits[i] < n2.digits[i]: #Если цифра первого числа меньше цифры второго - занимаем из старшего разряда
             n1.digits[i+1] -= 1
             n1.digits[i] += 10
+
         n1.digits[i] -= n2.digits[i]
     
     n1.remove_leading_zeros()
@@ -174,21 +185,21 @@ def nat_cmp(n1,n2):
     Выполнил: Томилов Даниил
     """
     
-    n1 = copy.deepcopy(n1)
-    n2 = copy.deepcopy(n2)
+    n1 = NaturalNumber(str(n1))
+    n2 = NaturalNumber(str(n2))
     
-    if len(n1.digits) > len(n2.digits):
+    if len(n1.digits) > len(n2.digits): #Если в первом числе больше цифр - оно больше
         return 2
-    elif len(n1.digits) < len(n2.digits):
+    elif len(n1.digits) < len(n2.digits): #Аналогично для второго
         return 1
-    else:
+    else: #Если количество цифр равно
         
         i = len(n1.digits)-1
     
-        if n1.digits == n2.digits:
+        if n1.digits == n2.digits: #Если числа равны, то возвращаем 0
             return 0
         
-        #ищем первую несовпадающую цифру
+        #Ищем первую несовпадающую цифру
         while n1.digits[i] == n2.digits[i]:
             i -= 1
 
@@ -205,22 +216,29 @@ def nat_mul_by_digit(n, d):
     Выполнил: Томилов Даниил
     """
     
-    n = copy.deepcopy(n)
     if type(n) is not NaturalNumber:
         raise TypeError('n must be a natural number')
     if type(d) is not int:
         raise TypeError('d must be an integer')
     if d < 0 or d > 10:
         raise ValueError('d must be a digit')
+
+    n = NaturalNumber(str(n))
     
+    #Добавление разряда
     n.digits.append(0)
+
+    #Изначально остаток равен нулю
     rem = 0
     
-    for i in range(len(n.digits)-1):
+    #Каждое число умножается на цифру и к нему добавляется остаток с прошлого разряда,
+    #после чего остаток переносится в старший разряд.
+    for i in range(len(n.digits)-1): 
         n.digits[i] = n.digits[i]*d+rem
         rem = n.digits[i]//10
         n.digits[i] %= 10
     n.digits[-1] += rem
+
     n.remove_leading_zeros()
     
     return n
@@ -235,19 +253,19 @@ def nat_mul_by_10_pow(n, k):
     
     Выполнил: Томилов Даниил
     """
-    
+
     if type(n) is not NaturalNumber:
         raise TypeError('n must be a natural number')
     if type(k) is not NaturalNumber and type(k) is not int:
         raise TypeError('k must be a natural number or an integer')
-    
+
     if type(k) is int:
         k = NaturalNumber(k) 
     
-    n = copy.deepcopy(n)
-    k = copy.deepcopy(k)
+    n = NaturalNumber(str(n))
+    k = NaturalNumber(str(k))
     
-    while k != 0:
+    while k != 0: #k раз приписываем к числу справа ноль. 
         n.digits.insert(0, 0)
         k = nat_sub(k, NaturalNumber(1))
     
@@ -267,12 +285,13 @@ def nat_mul(n1, n2):
     if type(n2) is not NaturalNumber:
         raise TypeError('n2 must be a natural number')
     
-    n1 = copy.deepcopy(n1)
-    n2 = copy.deepcopy(n2)
+    n1 = NaturalNumber(str(n1))
+    n2 = NaturalNumber(str(n2))
     
     ans = NaturalNumber()
-    
-    for i in range(len(n2.digits)):
+    #Произведение чисел - это сумма произведений первого числа на каждый из разрядов второго
+    #123 * 456 = 123 * (400 + 50 + 6) = 123*400 + 123*50 + 123*6
+    for i in range(len(n2.digits)): 
         t = nat_mul_by_digit(n1, n2.digits[i])
         t = nat_mul_by_10_pow(t, i)
         ans = nat_sum(ans, t)
@@ -299,8 +318,8 @@ def SUB_NDN_N(n1, n2, d):
     if d < 0 or d >= 10:
         raise ValueError("d must be a digit")
     
-    n1 = copy.deepcopy(n1)
-    n2 = copy.deepcopy(n2)
+    n1 = NaturalNumber(str(n1))
+    n2 = NaturalNumber(str(n2))
     
     n2 = nat_mul_by_digit(n2, d)
     
@@ -325,8 +344,8 @@ def DIV_NN_Dk(n1,n2):
     if type(n2) is not NaturalNumber:
         raise TypeError("n2 must be a natural number")
     
-    n1 = copy.deepcopy(n1)
-    n2 = copy.deepcopy(n2)
+    n1 = NaturalNumber(str(n1))
+    n2 = NaturalNumber(str(n2))
     
     if nat_cmp(n1, n2) == 1:
         raise ValueError("n1 must be greater than or equal to n2")
@@ -365,8 +384,8 @@ def nat_div(n1, n2):
     if type(n2) is not NaturalNumber:
         raise TypeError("n2 must be a natural number")
     
-    n1 = copy.deepcopy(n1)
-    n2 = copy.deepcopy(n2)
+    n1 = NaturalNumber(str(n1))
+    n2 = NaturalNumber(str(n2))
     
     if nat_cmp(n1, n2) == 1:
         raise ValueError("n1 must be greater than or equal to n2")
@@ -386,9 +405,14 @@ def nat_mod(n1, n2):
     
     Выполнил: Томилов Даниил
     """
+
+    if type(n1) is not NaturalNumber:
+        raise TypeError("n1 must be a natural number")
+    if type(n2) is not NaturalNumber:
+        raise TypeError("n2 must be a natural number")
     
-    n1 = copy.deepcopy(n1)
-    n2 = copy.deepcopy(n2)
+    n1 = NaturalNumber(str(n1))
+    n2 = NaturalNumber(str(n2))
     
     ans = nat_div(n1, n2)
     ans = nat_sub(n1, nat_mul(ans, n2))
@@ -404,12 +428,17 @@ def nat_gcd(n1, n2):
     Выполнил: Томилов Даниил
     """
     
-    n1 = copy.deepcopy(n1)
-    n2 = copy.deepcopy(n2)
+    if type(n1) is not NaturalNumber:
+        raise TypeError("n1 must be a natural number")
+    if type(n2) is not NaturalNumber:
+        raise TypeError("n2 must be a natural number")
+    
+    n1 = NaturalNumber(str(n1))
+    n2 = NaturalNumber(str(n2))
     
     if nat_cmp(n1, n2) == 1:
-        t = copy.deepcopy(n1)
-        n1 = copy.deepcopy(n2)
+        t = NaturalNumber(str(n1))
+        n1 = NaturalNumber(str(n2))
         n2 = t
         
     if nat_cmp(n1, NaturalNumber(0)) == 0:
@@ -422,7 +451,7 @@ def nat_gcd(n1, n2):
         c = nat_mod(n1, n2)
         if nat_cmp(c, NaturalNumber(0)) == 0:
             return n2
-        n1 = copy.deepcopy(n2)
+        n1 = NaturalNumber(str(n2))
         n2 = copy.deepcopy(c)
     
 def nat_lcm(n1, n2):
@@ -434,8 +463,8 @@ def nat_lcm(n1, n2):
     Выполнил: Томилов Даниил
     """
     
-    n1 = copy.deepcopy(n1)
-    n2 = copy.deepcopy(n2)
+    n1 = NaturalNumber(str(n1))
+    n2 = NaturalNumber(str(n2))
 
     m = nat_mul(n1, n2)
     gcc = nat_gcd(n1, n2)
@@ -459,10 +488,7 @@ def nat_lcm(n1, n2):
 #             print(a, b, ngcc, gcd(a,b), nlcm, lcm(a,b))
 
 def main():
-    a, b = input().split()
-    n1 = NaturalNumber(a)
-    n2 = NaturalNumber(b)
-    print(f"НОД: {nat_gcd(n1,n2)}, НОК: {nat_lcm(n1,n2)}")
+    nat_div(NaturalNumber(1234561343354352145214521453521452145214532145321453214512345613433543521452145214532145321453214532145),  NaturalNumber(3))
 
 if __name__ == '__main__':
     main()
