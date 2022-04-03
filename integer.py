@@ -1,5 +1,6 @@
-import copy
 import natnum
+import copy
+
 class Integer:
     """
     Целое число со знаком
@@ -141,7 +142,7 @@ def TRANS_Z_N(i1):
     n1=natnum.NaturalNumber(str(i1))
     return n1
 
-def ADD_ZZ_Z(i1,i2):
+def ADD_ZZ_Z(i1, i2):
     """
     ADD_ZZ_Z
     Сложение целых чисел
@@ -151,9 +152,9 @@ def ADD_ZZ_Z(i1,i2):
     i1 = copy.deepcopy(i1)
     i2 = copy.deepcopy(i2)
     znak1 = POZ_Z_D(i1)
+    znak2 = POZ_Z_D(i2)
+    mod1 = ABS_Z_N(i1)
     mod2 = ABS_Z_N(i2)
-        fl=1
-    if otric2==otric1:
 
     if i1.sign and i2.sign:
         i = Integer(natnum.nat_sum(mod1, mod2).__str__())
