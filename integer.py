@@ -75,6 +75,13 @@ class Integer:
             return True
         else:
             return False
+    def __eq__(self, other):
+        if type(self) == type(other):
+            return self.digits == other.digits
+        if type(other) == int:
+            return self.digits == NaturalNumber(other).digits
+        else:
+            raise TypeError("Can't compare a natural number to this type'")
 
 
 def ABS_Z_N(i1):
@@ -312,18 +319,21 @@ def DIV_ZZ_Z(i1,i2):
     mod2 = ABS_Z_N(i2)
     if natnum.nat_cmp(mod1, mod2) == 1 and( (otric1==1 and otric2==1) or (otric1==2 and otric2==2)):
         return Integer(0)
-    if(natnum.nat_cmp(mod1, mod2) == 1 and ((otric1 == 2 and otric2 == 1) or (otric1 == 1 and otric2 == 2))):
+    elif(natnum.nat_cmp(mod1, mod2) == 1 and ((otric1 == 2 and otric2 == 1) or (otric1 == 1 and otric2 == 2))):
         return Integer(-1)
+    elif otric1 == 0:
+        return Integer(0)
     else:
         x=natnum.nat_div(mod1, mod2)
         if (otric1==1 and otric2==1) or (otric1==2 and otric2==2):
             return TRANS_N_Z(x)
         if (otric1 == 2 and otric2 == 1) or (otric1 == 1 and otric2 == 2):
+            if SUB_ZZ_Z(MUL_ZZ_Z(TRANS_N_Z(x),TRANS_N_Z(mod2)),TRANS_N_Z(mod1)).is_zero():
+                return MUL_ZM_Z(TRANS_N_Z(x))
+            else:
+                x.add_1()
+                return MUL_ZM_Z(TRANS_N_Z(x))
 
-            x.add_1()
-            return MUL_ZM_Z(TRANS_N_Z(x))
-        if otric1==0 :
-            return Integer(0)
 
 def MOD_ZZ_Z(i1,i2):
     """
@@ -347,13 +357,13 @@ def MOD_ZZ_Z(i1,i2):
 
     y=MUL_ZZ_Z(x,i2)
 
-    if y==i1:
+    if SUB_ZZ_Z(y,i1).is_zero():
         return Integer(0)
 
     else:
 
-        if otric1==1:
-            return MUL_ZM_Z((SUB_ZZ_Z(i1,y)))
+        if (otric1 == 2 and otric2 == 1) or (otric1 == 1 and otric2 == 2):
+            return ((SUB_ZZ_Z(i1,y)))
         else:
             return SUB_ZZ_Z(i1,y)
 
@@ -375,7 +385,7 @@ def main():
     a, b = input().split()
     i1 = Integer(a)
     i2 = Integer(b)
-    print(f"{MOD_ZZ_Z(i1,i2)}")
+    print(f"{DIV_ZZ_Z(i1,i2)}")
 
 
 if __name__ == '__main__':

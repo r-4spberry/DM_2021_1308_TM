@@ -114,7 +114,6 @@ def nat_sum(n1, n2):
     Выполнил: Томилов Даниил
     """
     
-    n1 = NaturalNumber(str(n1))
     n2 = NaturalNumber(str(n2))
 
     #Ставим числа в убывающем порядке
@@ -184,9 +183,6 @@ def nat_cmp(n1,n2):
     
     Выполнил: Томилов Даниил
     """
-    
-    n1 = NaturalNumber(str(n1))
-    n2 = NaturalNumber(str(n2))
     
     if len(n1.digits) > len(n2.digits): #Если в первом числе больше цифр - оно больше
         return 2
@@ -285,8 +281,6 @@ def nat_mul(n1, n2):
     if type(n2) is not NaturalNumber:
         raise TypeError('n2 must be a natural number')
     
-    n1 = NaturalNumber(str(n1))
-    n2 = NaturalNumber(str(n2))
     
     ans = NaturalNumber()
     #Произведение чисел - это сумма произведений первого числа на каждый из разрядов второго
@@ -345,7 +339,6 @@ def DIV_NN_Dk(n1,n2):
         raise TypeError("n2 must be a natural number")
     
     n1 = NaturalNumber(str(n1))
-    n2 = NaturalNumber(str(n2))
     
     if nat_cmp(n1, n2) == 1:
         raise ValueError("n1 must be greater than or equal to n2")
@@ -385,7 +378,6 @@ def nat_div(n1, n2):
         raise TypeError("n2 must be a natural number")
     
     n1 = NaturalNumber(str(n1))
-    n2 = NaturalNumber(str(n2))
     
     if nat_cmp(n1, n2) == 1:
         raise ValueError("n1 must be greater than or equal to n2")
@@ -411,9 +403,7 @@ def nat_mod(n1, n2):
     if type(n2) is not NaturalNumber:
         raise TypeError("n2 must be a natural number")
     
-    n1 = NaturalNumber(str(n1))
-    n2 = NaturalNumber(str(n2))
-    
+
     ans = nat_div(n1, n2)
     ans = nat_sub(n1, nat_mul(ans, n2))
     
@@ -488,7 +478,8 @@ def nat_lcm(n1, n2):
 #             print(a, b, ngcc, gcd(a,b), nlcm, lcm(a,b))
 
 def main():
-    nat_div(NaturalNumber(1234561343354352145214521453521452145214532145321453214512345613433543521452145214532145321453214532145),  NaturalNumber(3))
+    print(nat_div(NaturalNumber(12345613433543521452145214535214521452145321453214532145123456134335435214521452145321453214532145321451234561343354352145214521453521452145214532145321453214512345613433543521452145214532145321453214532145),  NaturalNumber(3)))
+    print(12345613433543521452145214535214521452145321453214532145123456134335435214521452145321453214532145321451234561343354352145214521453521452145214532145321453214512345613433543521452145214532145321453214532145//3)
 
 if __name__ == '__main__':
     main()
