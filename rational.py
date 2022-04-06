@@ -1,6 +1,7 @@
 from integer import *
 from natnum import *
 
+
 class RationalNumber():
     """
         Рациональное число.
