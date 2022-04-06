@@ -79,7 +79,7 @@ class Integer:
         if type(self) == type(other):
             return self.digits == other.digits
         if type(other) == int:
-            return self.digits == NaturalNumber(other).digits
+            return self.digits == natnum.NaturalNumber(other).digits
         else:
             raise TypeError("Can't compare a natural number to this type'")
 
