@@ -34,10 +34,7 @@ class Polynom:
         return s
     def __repr__(self):
         return f"Polynom({repr(self.coef)})"
-    
-    def remove_leading_zeros(self):
-        while self.coef[-1].numer == 0 and len(self.coef) > 1:
-            self.coef.pop()
+
 
 def ADD_PP_P(p1, p2):
     """
@@ -45,22 +42,10 @@ def ADD_PP_P(p1, p2):
     принимает на вход два массива одинаковой длины р1 и р2 (малый дополняется нулевыми коэффициентами до длины большого)
     """
     p3 = Polynom([])
-    
-    if len(p1.coef) < len(p2.coef):
-        p1 = copy.deepcopy(p2)
-        p2 = copy.deepcopy(p1)
-    else:
-        p1 = copy.deepcopy(p1)
-        p2 = copy.deepcopy(p2)
-        
-    while len(p2.coef) < len(p1.coef):
-        p2.coef.append(RationalNumber(0, 1))
-        
+
     for i in range (len(p1.coef)):
         k=ADD_QQ_Q(p1.coef[i],p2.coef[i])
         p3.coef.append(k)
-    
-    p3.remove_leading_zeros()
     return p3
 
 def SUB_PP_P(p1, p2):
@@ -76,8 +61,6 @@ def SUB_PP_P(p1, p2):
         if (i<len(p2r.coef)):
             k=SUB_QQ_Q(p1r.coef[i],p2r.coef[i])
             p3.coef.append(k)
-    
-    p3.remove_leading_zeros()
     return p3
 
 def MUL_PQ_P (p1,x):
@@ -87,8 +70,6 @@ def MUL_PQ_P (p1,x):
     p3=copy.deepcopy(p1)
     for i in range(0,len(p1.coef)):
         p3.coef[i] = rational.MUL_QQ_Q(p1.coef[i], x)
-    
-    p3.remove_leading_zeros()
     return p3
 
 def MUL_Pxk_P (p1,k):
@@ -101,8 +82,6 @@ def MUL_Pxk_P (p1,k):
     for i in range(k):
         p3.coef.append(rational.RationalNumber(0,1))
     p3.coef.reverse()
-    
-    p3.remove_leading_zeros()
     return p3
 
 def LED_P_Q(p1):
@@ -155,8 +134,6 @@ def FAC_P_Q(p1):
     for i in range (len(p1.coef)):
         d=DIV_QQ_Q(p1.coef[i],P)
         p4.coef.append(d)
-        
-    p4.remove_leading_zeros()
     return P, p4
 
 def MUL_PP_P(pP,pA): #"""принимает многочлены одинаковой длины"""
@@ -175,9 +152,9 @@ def MUL_PP_P(pP,pA): #"""принимает многочлены одинако�
             P1 = MUL_Pxk_P(pP, i)
             P2 = MUL_PQ_P(P1, pA.coef[i])
             P2r=copy.deepcopy(P2)
+            for j in range (deg+1-len(P2.coef)):
+                P2r.coef.append(RationalNumber('0','1'))
             P4= ADD_PP_P(P2r,P4)
-    
-    P4.remove_leading_zeros()
     return P4
 
 def DIV_PP_P (pP,pA):
@@ -202,8 +179,6 @@ def DIV_PP_P (pP,pA):
         m=DEG_P_N(P3)
         Pres.coef.append(k)
     Pres.coef.reverse()
-    
-    Pres.remove_leading_zeros()
     return Pres
 
 def MOD_PP_P (pP,pA):
@@ -224,8 +199,6 @@ def MOD_PP_P (pP,pA):
     for i in range(m-n):
         result.coef.pop(0)
     result.coef.reverse()
-    
-    result.remove_leading_zeros()
     return result
 
 def GCF_PP_P (p1, p2):
@@ -248,8 +221,6 @@ def GCF_PP_P (p1, p2):
         res=P1
     else:
         res=P2
-        
-    res.remove_leading_zeros()
     return res
 
 def DER_P_P (p1):
@@ -264,30 +235,28 @@ def DER_P_P (p1):
         h=MUL_QQ_Q(P1.coef[i],k)
         Res.coef.append(h)
     Res.coef.pop(len(Res.coef)-1)
-    
-    Res.remove_leading_zeros()
     return Res
 
 def NMR_P_P(poly):
     """Преобразование многочлена — кратные корни в простые
     --Заглушка--
-    Возвращает многочлен с сокращенными кратными корнями
+    Возвращает многочлен с сокращенными кратными корня
     """
     return Polynom([RationalNumber(1), RationalNumber(0), RationalNumber(1)])
 
 
 
 def main():
-    p2 = Polynom([rational.RationalNumber(-2), rational.RationalNumber(1)])
-    p1 = Polynom([rational.RationalNumber(-1), rational.RationalNumber(1)])
-    p  = MUL_PP_P(p1, p1)
-    p  = MUL_PP_P(p, p1)
-    p  = MUL_PP_P(p, p2)
-    p  = MUL_PP_P(p, p2)
-    
-    print(p) 
+    p1 = Polynom([rational.RationalNumber(1, 8), rational.RationalNumber(1, 8), rational.RationalNumber(1, 8),
+                  rational.RationalNumber(1, 8), rational.RationalNumber(2, 3), rational.RationalNumber(1, 3),
+                  rational.RationalNumber(2, 19),
+                  rational.RationalNumber(6, 7)])
+    p2 = Polynom([rational.RationalNumber(2, 1), rational.RationalNumber(3, 2)])
+    print('p1= ',p1)
+    print('p2= ',p2)
 
     P1=DER_P_P(p1)
+    print(P1.coef)
     print(P1)
     #print(p1.coef[0], p1.coef[1])
     #print(p2.coef[0], p2.coef[1], p2.coef[2])
