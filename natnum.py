@@ -159,7 +159,7 @@ def nat_sub(n1, n2):
     #Добавление к n2 ведущих нулей
     while len(n2.digits) < len(n1.digits):
         n2.digits.append(0)
-    
+        
     for i in range(len(n1.digits)):
         if n1.digits[i] < n2.digits[i]: #Если цифра первого числа меньше цифры второго - занимаем из старшего разряда
             n1.digits[i+1] -= 1

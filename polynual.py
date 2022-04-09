@@ -1,17 +1,6 @@
-import math
 from typing import List
 import rational
 import natnum
-from rational import ADD_QQ_Q
-from rational import SUB_QQ_Q
-from rational import MUL_QQ_Q
-from rational import DIV_QQ_Q
-from natnum import nat_lcm
-from natnum import nat_gcd
-from integer import TRANS_Z_N
-from integer import TRANS_N_Z
-from integer import ABS_Z_N
-from integer import DIV_ZZ_Z
 import copy
 from rational import RationalNumber
 class Polynom:
@@ -34,32 +23,63 @@ class Polynom:
         return s
     def __repr__(self):
         return f"Polynom({repr(self.coef)})"
-
-
+    
+    def normalise(self):
+        while len(self.coef) > 1 and self.coef[-1].numer == 0:
+            self.coef.pop()
+        if len(self.coef) == 0:
+            self.coef = [RationalNumber(0)]
+            
 def ADD_PP_P(p1, p2):
     """
     складывает два многочлена типа Polynom
     принимает на вход два массива одинаковой длины р1 и р2 (малый дополняется нулевыми коэффициентами до длины большого)
     """
     p3 = Polynom([])
+    p2r=copy.deepcopy(p2)
+    p1r=copy.deepcopy(p1)
+    if (len(p2r.coef)<len(p1r.coef)):
+        for i in range(len(p1r.coef)-len(p2r.coef)):
+            p2r.coef.append(rational.RationalNumber('0','1'))
+    if (len(p1r.coef)<len(p2r.coef)):
+        for i in range(len(p2r.coef)-len(p1r.coef)):
+            p1r.coef.append(rational.RationalNumber('0','1'))
+    #print('p11=', p1r.__str__())
+    #print('p21=', p2r.__str__())
 
-    for i in range (len(p1.coef)):
-        k=ADD_QQ_Q(p1.coef[i],p2.coef[i])
+    for i in range (len(p1r.coef)):
+        k=rational.ADD_QQ_Q(p1r.coef[i],p2r.coef[i])
         p3.coef.append(k)
     return p3
 
 def SUB_PP_P(p1, p2):
     """
     вычитает один многочлен из другого
-    принимает на вход два массива одинаковой длины р1 и р2 (малый дополняется нулевыми коэффициентами до длины большого)
+    принимает на вход два многочлена р1 и р2 (малый дополняется нулевыми коэффициентами до длины большого)
     возвращает многочлен типа Polynom
     """
     p3=Polynom([])
     p1r=copy.deepcopy(p1)
     p2r=copy.deepcopy(p2)
+    if (len(p2r.coef)<len(p1r.coef)):
+        for i in range(len(p1r.coef)-len(p2r.coef)):
+            p2r.coef.append(rational.RationalNumber('0','1'))
+    if (len(p1r.coef)<len(p2r.coef)):
+        for i in range(len(p2r.coef)-len(p1r.coef)):
+            p1r.coef.append(rational.RationalNumber('0','1'))
+    if (len(p2r.coef) < len(p1r.coef)):
+        p2r.coef.reverse()
+        for i in range(len(p1r.coef) - len(p2r.coef)):
+            p2r.coef.append(rational.RationalNumber('0', '1'))
+        p2r.coef.reverse()
+    if (len(p1r.coef) < len(p2r.coef)):
+        p1r.coef.reverse()
+        for i in range(len(p2r.coef) - len(p1r.coef)):
+            p1r.coef.append(rational.RationalNumber('0', '1'))
+        p1r.coef.reverse()
     for i in range (0,len(p1r.coef)):
         if (i<len(p2r.coef)):
-            k=SUB_QQ_Q(p1r.coef[i],p2r.coef[i])
+            k=rational.SUB_QQ_Q(p1r.coef[i],p2r.coef[i])
             p3.coef.append(k)
     return p3
 
@@ -118,21 +138,21 @@ def FAC_P_Q(p1):
         znam.append(p3.coef[i].denom)
 
     while (len(znam)!=1):
-        k=nat_gcd(znam[0],znam[1])
+        k=natnum.nat_lcm(znam[0],znam[1])
         for i in range(2):
             znam.pop(0)
         znam.insert(0,k)
 
     while (len(chisl)!=1):
-        k=nat_lcm(chisl[0],chisl[1])
+        k=natnum.nat_gcd(chisl[0],chisl[1])
         for i in range(2):
             chisl.pop(0)
         chisl.insert(0,k)
     nzn=znam[0]
     nch=chisl[0]
-    P=RationalNumber(str(nch),str(nzn))
+    P=rational.RationalNumber(str(nch),str(nzn))
     for i in range (len(p1.coef)):
-        d=DIV_QQ_Q(p1.coef[i],P)
+        d=rational.DIV_QQ_Q(p1.coef[i],P)
         p4.coef.append(d)
     return P, p4
 
@@ -143,6 +163,16 @@ def MUL_PP_P(pP,pA): #"""принимает многочлены одинако�
     """
     pP=copy.deepcopy(pP)
     pA=copy.deepcopy(pA)
+
+    if (len(pP.coef)<len(pA.coef)):
+
+        for i in range(len(pA.coef)-len(pP.coef)):
+            pP.coef.append(RationalNumber('0','1'))
+
+    if (len(pA.coef)<len(pP.coef)):
+        for i in range(len(pP.coef)-len(pA.coef)):
+            pA.coef.append(RationalNumber('0','1'))
+
     P4=Polynom([])
     deg=2*(len(pP.coef)-1)
     for i in range (deg+1):
@@ -155,51 +185,50 @@ def MUL_PP_P(pP,pA): #"""принимает многочлены одинако�
             for j in range (deg+1-len(P2.coef)):
                 P2r.coef.append(RationalNumber('0','1'))
             P4= ADD_PP_P(P2r,P4)
+    P4.normalise()
     return P4
 
-def DIV_PP_P (pP,pA):
+def divmod(p1, p2):
     """
-    выполняет деление многочленов
-    возвращает целое от деления
+    Возвращает целое и остаток от деления двух многочленов
     """
-    pP = copy.deepcopy(pP)
-    pA = copy.deepcopy(pA)
-    P3=copy.deepcopy(pP)
-    m=DEG_P_N(pP)
-    n=DEG_P_N(pA)
-    Pres=Polynom([])
-    print('m== ', m)
-    print('n== ', n)
-    while(m>=n):
-        P1=MUL_Pxk_P(pA,m-n)
-        k = DIV_QQ_Q(P3.coef[len(P3.coef)-1],P1.coef[len(P1.coef)-1])
-        P2=MUL_PQ_P(P1,k)
-        P3=SUB_PP_P(P3,P2)
-        P3.coef.pop(len(P3.coef)-1)
-        m=DEG_P_N(P3)
-        Pres.coef.append(k)
-    Pres.coef.reverse()
-    return Pres
+    p1 = copy.deepcopy(p1)
+    p2 = copy.deepcopy(p2)
 
-def MOD_PP_P (pP,pA):
+    if DEG_P_N(p1) >= DEG_P_N(p2):
+        diff = DEG_P_N(p1) - DEG_P_N(p2)
+        p2.coef = [RationalNumber()]*diff + p2.coef
+    else:
+        return Polynom([RationalNumber()]), p1
+
+    ans = Polynom([])
+    d = p2.coef[-1]
+    
+    for i in range(diff+1):
+        m = rational.DIV_QQ_Q(p1.coef[-1], d)
+        ans.coef = [m] + ans.coef
+        p1 = SUB_PP_P(p1, MUL_PP_P(p2,Polynom([m])))
+        p1.coef.pop()
+        p2.coef.pop(0)
+        
+    ans.normalise()
+    p1.normalise()
+    
+    return ans, p1
+
+def DIV_PP_P (p1,p2):
     """
-    выполняет деление многочленов
-    возвращает остаток от деления
+    возвращает целое от деления двух многочленов
     """
-    pP = copy.deepcopy(pP)
-    pA = copy.deepcopy(pA)
-    n=DEG_P_N(pA)-1
-    pP=copy.deepcopy(pP)
-    pA=copy.deepcopy(pA)
-    Pres=DIV_PP_P(pP, pA)
-    Pr=MUL_PP_P(pA,Pres)
-    result=SUB_PP_P(pP,Pr)
-    m=DEG_P_N(result)
-    result.coef.reverse()
-    for i in range(m-n):
-        result.coef.pop(0)
-    result.coef.reverse()
-    return result
+    return divmod(p1, p2)[0]
+
+
+
+def MOD_PP_P (p1,p2):
+    """
+    возвращает остаток от деления двух многочленов
+    """
+    return divmod(p1, p2)[1]
 
 def GCF_PP_P (p1, p2):
     """
@@ -209,19 +238,18 @@ def GCF_PP_P (p1, p2):
     P1=copy.deepcopy(p1)
     P2=copy.deepcopy(p2)
     m=1
-    res=Polynom([])
-    while (m!=0):
+    while True:
+        P2 = MUL_PQ_P(P2, rational.DIV_QQ_Q(RationalNumber(1), P2.coef[0]))
+        P1 = MUL_PQ_P(P1, rational.DIV_QQ_Q(RationalNumber(1), P1.coef[0]))
         if (DEG_P_N(P1)>DEG_P_N(P2)):
             P1=MOD_PP_P(P1, P2)
-        if (DEG_P_N(P2)>DEG_P_N(P1)):
+            if DEG_P_N(P1) == 0 and P1.coef[0].numer == 0:
+                return P2
+        else:
             P2=MOD_PP_P(P2, P1)
-        m=min(DEG_P_N(P2),DEG_P_N(P1))
-    g=max(DEG_P_N(P2),DEG_P_N(P1))
-    if (DEG_P_N(P1)==g):
-        res=P1
-    else:
-        res=P2
-    return res
+            if DEG_P_N(P2) == 0 and P2.coef[0].numer == 0:
+                return P1
+
 
 def DER_P_P (p1):
     """
@@ -229,44 +257,35 @@ def DER_P_P (p1):
     """
     P1=copy.deepcopy(p1)
     Res=Polynom([])
-    for i in range(DEG_P_N(P1)+1):
-        m=len(P1.coef)-i-1
-        k=rational.RationalNumber(str(m),'1')
-        h=MUL_QQ_Q(P1.coef[i],k)
+    f=len(P1.coef)-1
+    m=len(P1.coef)-1
+    for i in range (len(P1.coef)):
+        k=f-i
+        h=rational.MUL_QQ_Q(P1.coef[m], rational.RationalNumber(str(k),'1'))
         Res.coef.append(h)
+        m -= 1
     Res.coef.pop(len(Res.coef)-1)
+    Res.coef.reverse()
+
     return Res
 
-def NMR_P_P(poly):
-    """Преобразование многочлена — кратные корни в простые
-    --Заглушка--
-    Возвращает многочлен с сокращенными кратными корня
+def NMR_P_P(p):
     """
-    return Polynom([RationalNumber(1), RationalNumber(0), RationalNumber(1)])
-
-
+    Возвращает многочлен с сокращенными кратными корнями
+    """
+    q = DER_P_P(p)
+    d = GCF_PP_P(p, q)
+    ans = DIV_PP_P(p, d)
+    return ans
 
 def main():
-    p1 = Polynom([rational.RationalNumber(1, 8), rational.RationalNumber(1, 8), rational.RationalNumber(1, 8),
-                  rational.RationalNumber(1, 8), rational.RationalNumber(2, 3), rational.RationalNumber(1, 3),
-                  rational.RationalNumber(2, 19),
-                  rational.RationalNumber(6, 7)])
-    p2 = Polynom([rational.RationalNumber(2, 1), rational.RationalNumber(3, 2)])
-    print('p1= ',p1)
-    print('p2= ',p2)
 
-    P1=DER_P_P(p1)
-    print(P1.coef)
-    print(P1)
-    #print(p1.coef[0], p1.coef[1])
-    #print(p2.coef[0], p2.coef[1], p2.coef[2])
-    #print(p1)
-    #print(type(a))
-    #P1, P2, P3 = MUL_PP_P(p2,p1)
-    #print(P1,'\n',P2,'\n',P3)
-    #input()
-
-
+    p1 = Polynom([rational.RationalNumber(1, 1), rational.RationalNumber(3, 1), rational.RationalNumber(6, 1), rational.RationalNumber(7, 1), rational.RationalNumber(3, 1)])
+    p2 = Polynom([rational.RationalNumber(1, 1), rational.RationalNumber(3, 1), rational.RationalNumber(3, 1), rational.RationalNumber(1, 1)])
+    print(p1)
+    print(p2)
+    print(GCF_PP_P(p1, p2))
+    
 if __name__ == "__main__":
     main()
 
