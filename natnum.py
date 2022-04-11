@@ -2,6 +2,7 @@ from logging import raiseExceptions
 from typing import List
 import copy
 import cProfile
+
 class NaturalNumber:
     """ 
     Натуральное число.
