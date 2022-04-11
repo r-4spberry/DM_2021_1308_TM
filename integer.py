@@ -343,7 +343,7 @@ def DIV_ZZ_Z(i1,i2):
         #Если знак одинаковый возвращаем частное как целое
         if (otric1==1 and otric2==1) or (otric1==2 and otric2==2):
             return TRANS_N_Z(x)
-        if (otric1 == 2 and otric2 == 1) or (otric1 == 1 and otric2 == 2):
+        if (otric1 == 1 and otric2 == 2):
             #Если разность между модуля числителя  и модулем произведения частного и знаменателя равна
             #нулю возвращаем частное с знаком минус
             #ИЛИ
@@ -353,6 +353,12 @@ def DIV_ZZ_Z(i1,i2):
             # если числа делятся с остатком возвращаем отрицательное (частное+1)
             else:
                 x.add_1()
+                return MUL_ZM_Z(TRANS_N_Z(x))
+        if (otric1 == 2 and otric2 == 1):
+            if SUB_ZZ_Z(MUL_ZZ_Z(TRANS_N_Z(x),TRANS_N_Z(mod2)),TRANS_N_Z(mod1)).is_zero():
+                return MUL_ZM_Z(TRANS_N_Z(x))
+            # если числа делятся с остатком возвращаем отрицательное (частное)
+            else:
                 return MUL_ZM_Z(TRANS_N_Z(x))
 
 

@@ -195,7 +195,7 @@ class App(customtkinter.CTk):
 
         self.radio_button_COM_NN_D = customtkinter.CTkRadioButton(master=self.frame_radio_natnum,
                                                                   variable=self.radio_var_natnum, value=0, text="",
-                                                                  command=self.radio_natnums_event2)
+                                                                  command=self.radio_natnums_event_0)
         self.radio_button_COM_NN_D.grid(row=1, column=2, pady=10, padx=20, sticky="n")
         self.label_rad_COM_NN_D = customtkinter.CTkLabel(master=self.frame_radio_natnum, height=20, text="Сравнение",
                                                          text_font=("Roboto Medium", -14))
@@ -237,7 +237,7 @@ class App(customtkinter.CTk):
                                                                   variable=self.radio_var_natnum, value=5, text="",
                                                                   command=self.radio_natnums_event_5)
         self.radio_button_MUL_ND_N.grid(row=6, column=2, pady=10, padx=20, sticky="n")
-        self.label_rad_MUL_ND_N = customtkinter.CTkLabel(master=self.frame_radio_natnum, height=20, text="Умножение",
+        self.label_rad_MUL_ND_N = customtkinter.CTkLabel(master=self.frame_radio_natnum, height=20, text="Умножение на цифру",
                                                          text_font=("Roboto Medium", -14))
         self.label_rad_MUL_ND_N.grid(row=6, column=3, pady=10, padx=20, sticky="n")
 
@@ -246,7 +246,7 @@ class App(customtkinter.CTk):
                                                                   command=self.radio_natnums_event_6)
         self.radio_button_MUL_Nk_N.grid(row=7, column=2, pady=10, padx=20, sticky="n")
         self.label_rad_MUL_Nk_N = customtkinter.CTkLabel(master=self.frame_radio_natnum, height=20,
-                                                         text="Умножение на x^k", text_font=("Roboto Medium", -14))
+                                                         text="Умножение на 10^k", text_font=("Roboto Medium", -14))
         self.label_rad_MUL_Nk_N.grid(row=7, column=3, pady=10, padx=20, sticky="n")
 
         self.radio_button_MUL_NN_N = customtkinter.CTkRadioButton(master=self.frame_radio_natnum,
@@ -819,9 +819,9 @@ class App(customtkinter.CTk):
                 n.add_1()
                 self.label_res_natnum.configure(text=str(n))
             elif (self.radio_var_natnum.get() == 3):
-                self.label_res_natnum.configure(text=str(nat_sum(self.entry_natnum1.get(), self.entry_natnum2.get())))
+                self.label_res_natnum.configure(text=str(nat_sum(NaturalNumber(self.entry_natnum1.get()), NaturalNumber(self.entry_natnum2.get()))))
             elif (self.radio_var_natnum.get() == 4):
-                self.label_res_natnum.configure(text=str(nat_sub(self.entry_natnum1.get(), self.entry_natnum2.get())))
+                self.label_res_natnum.configure(text=str(nat_sub(NaturalNumber(self.entry_natnum1.get()), NaturalNumber(self.entry_natnum2.get()))))
             elif (self.radio_var_natnum.get() == 5):
                 self.label_res_natnum.configure(text=str(
                     nat_mul_by_digit(NaturalNumber(str(self.entry_natnum1.get())), int(self.entry_natnum2.get()))))

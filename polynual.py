@@ -27,7 +27,7 @@ class Polynom:
                         s += f"x^{i}+"
                     else:
                         s += f"x+"
-        s.rstrip("+")
+        s = s.rstrip("+")
         return s
     def __repr__(self):
         return f"Polynom({repr(self.coef)})"
