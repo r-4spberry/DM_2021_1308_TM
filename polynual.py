@@ -255,9 +255,10 @@ def GCF_PP_P (p1, p2):
     """
     P1=copy.deepcopy(p1)
     P2=copy.deepcopy(p2)
+    print(P1, P2)
     m=1
     while True:
-        P2 = FAC_P_Q(P1)[1]
+        P2 = FAC_P_Q(P2)[1]
         P1 = FAC_P_Q(P1)[1]
         if (DEG_P_N(P1)>DEG_P_N(P2)):
             P1=MOD_PP_P(P1, P2)
@@ -298,8 +299,9 @@ def NMR_P_P(p):
 
 def main():
 
-    p1 = Polynom([rational.RationalNumber(1, 1), rational.RationalNumber(3, 1), rational.RationalNumber(6, 1), rational.RationalNumber(7, 1), rational.RationalNumber(3, 1)])
-    p2 = Polynom([rational.RationalNumber(1, 1), rational.RationalNumber(3, 1), rational.RationalNumber(3, 1), rational.RationalNumber(1, 1)])
+    p1 = Polynom([rational.RationalNumber(1, 1), rational.RationalNumber(1, 1), rational.RationalNumber(3, 1),
+                                             rational.RationalNumber(6, 1)])
+    p2= Polynom([rational.RationalNumber(1, 1), rational.RationalNumber(1, 1), rational.RationalNumber(3, 1)])
     print(p1)
     print(p2)
     print(GCF_PP_P(p1, p2))
