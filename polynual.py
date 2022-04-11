@@ -18,10 +18,11 @@ class Polynom:
         s = ""
         for i in range(len(self.coef)-1, -1, -1):
             if self.coef[i].numer != 0 or len(self.coef) == 1:
-                if self.coef[i].denom == 1:
+                if self.coef[i].denom == 1 and self.coef[i].sign == 0:
                     s += f"{self.coef[i].numer}"
                 else:
-                    s += f"({self.coef[i].numer}/{self.coef[i].denom})"
+                    s += ("(" + ("-" if self.coef[i].sign == 1 else "") + f"{self.coef[i].numer}"+
+                          (f"/{self.coef[i].denom}" if self.coef[i].denom != 1 else "") + ")")
                 if i != 0:
                     if i != 1:
                         s += f"x^{i}+"
@@ -214,22 +215,18 @@ def divmod(p1, p2):
     p1 = copy.deepcopy(p1)
     p2 = copy.deepcopy(p2)
 
-    if DEG_P_N(p1) >= DEG_P_N(p2):
-        diff = DEG_P_N(p1) - DEG_P_N(p2)
-        p2.coef = [RationalNumber()]*diff + p2.coef
-    else:
+    if DEG_P_N(p1) < DEG_P_N(p2):
         return Polynom([RationalNumber()]), p1
 
     ans = Polynom([])
-    d = p2.coef[-1]
+    d = LED_P_Q(p2)
     
-    for i in range(diff+1):
-        m = rational.DIV_QQ_Q(p1.coef[-1], d)
-        ans.coef = [m] + ans.coef
-        p1 = SUB_PP_P(p1, MUL_PP_P(p2,Polynom([m])))
-        p1.coef.pop()
-        p2.coef.pop(0)
-        
+    while (diff >= 0 and (DEG_P_N(p1) != 0 or LED_P_Q(p1).numer != 0)):
+        T = MUL_Pxk_P(Polynom([rational.DIV_QQ_Q(LED_P_Q(p1),LED_P_Q(p2))]), diff)
+        p1 = SUB_PP_P(p1, MUL_PP_P(T, p2))
+        p1.normalise()
+        ans = ADD_PP_P(ans, T)
+        diff = DEG_P_N(p1) - DEG_P_N(p2)
     ans.normalise()
     p1.normalise()
     
@@ -240,7 +237,6 @@ def DIV_PP_P (p1,p2):
     возвращает целое от деления двух многочленов
     """
     return divmod(p1, p2)[0]
-
 
 
 def MOD_PP_P (p1,p2):
@@ -275,6 +271,10 @@ def DER_P_P (p1):
     возвращает производную многочлена
     """
     P1=copy.deepcopy(p1)
+    
+    if DEG_P_N(p1) == 0:
+        return Polynom([rational.RationalNumber(0)])
+    
     Res=Polynom([])
     f=len(P1.coef)-1
     m=len(P1.coef)-1
