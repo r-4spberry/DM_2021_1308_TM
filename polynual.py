@@ -116,7 +116,6 @@ def MUL_Pxk_P (p1,k):
     p3=copy.deepcopy(p1)
     p3.coef.reverse()
     i = natnum.NaturalNumber(0)
-    print(i, k)
     while natnum.nat_cmp(k, i) != 0:
         p3.coef.append(rational.RationalNumber(0,1))
         i.add_1()
