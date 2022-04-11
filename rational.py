@@ -39,8 +39,8 @@ class RationalNumber():
 
         Выполнил: Пакулов Илья
         """
-
-        s = '(' + ("-" if self.sign else "") + str(self.numer) + ';' + str(self.denom) + ')'
+        
+        s = ("-" if self.sign else "") + str(self.numer) + '/' + str(self.denom)
         return s
 
     def __repr__(self) -> str:

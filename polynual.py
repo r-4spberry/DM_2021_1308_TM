@@ -16,10 +16,18 @@ class Polynom:
         self.coef = coef
     def __str__(self):
         s = ""
-        for i in range(len(self.coef)-1, 0, -1):
-            s += f"{self.coef[i]}x^{i}+"
-        if (len(self.coef)!=0):
-            s += str(self.coef[0])
+        for i in range(len(self.coef)-1, -1, -1):
+            if self.coef[i].numer != 0 or len(self.coef) == 1:
+                if self.coef[i].denom == 1:
+                    s += f"{self.coef[i].numer}"
+                else:
+                    s += f"({self.coef[i].numer}/{self.coef[i].denom})"
+                if i != 0:
+                    if i != 1:
+                        s += f"x^{i}+"
+                    else:
+                        s += f"x+"
+        s.rstrip("+")
         return s
     def __repr__(self):
         return f"Polynom({repr(self.coef)})"
@@ -97,10 +105,21 @@ def MUL_Pxk_P (p1,k):
     умножает многочлен p1 в нормальном виде на переменную в степени k
     возвращает многочлен с новыми степенями, при старых степенях стоят нули
     """
+    if type(p1) is not Polynom:
+        assert ValueError
+    if type(k) is not int or type(k) and not natnum.NaturalNumber:
+        assert ValueError
+        
+    if type(k) is int:
+        k = natnum.NaturalNumber(k)
+    
     p3=copy.deepcopy(p1)
     p3.coef.reverse()
-    for i in range(k):
+    i = natnum.NaturalNumber(0)
+    print(i, k)
+    while natnum.nat_cmp(k, i) != 0:
         p3.coef.append(rational.RationalNumber(0,1))
+        i.add_1()
     p3.coef.reverse()
     return p3
 

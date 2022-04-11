@@ -927,12 +927,15 @@ class App(customtkinter.CTk):
 
     def button_calculate_polynual_event(self):
 
-        arr1 = self.entry_polynual1.get().split(',')
-        ratio_arr1 = [RationalNumber(x, 1) for x in arr1]
+        arr1 = self.entry_polynual1.get().replace(",", " ").split()
+        arr1 = list(map(lambda x: (x.split("/") if "/" in x else [x, '1']), arr1))
+        print(arr1)
+        ratio_arr1 = [RationalNumber(x[0], x[1]) for x in arr1[::-1]]
 
-        arr2 = self.entry_polynual1.get().split(',')
-        ratio_arr2 = [RationalNumber(x, 1) for x in arr2]
-
+        arr2 = self.entry_polynual2.get().replace(",", " ").split()
+        arr2 = list(map(lambda x: (x.split("/") if "/" in x else [x, '1']), arr2))
+        ratio_arr2 = [RationalNumber(x[0],x[1]) for x in arr2[::-1]]
+        print(ratio_arr1, ratio_arr2)
         try:
             if (self.radio_var_polynual.get() == 0):
                 self.label_res_polynual.configure(
@@ -945,14 +948,15 @@ class App(customtkinter.CTk):
                     text=str(MUL_PQ_P(Polynom(ratio_arr1),
                                       RationalNumber(self.entry_rational_num.get(), self.entry_rational_den.get()))))
             elif (self.radio_var_polynual.get() == 3):
+                print(self.entry_polynual2.get())
                 self.label_res_polynual.configure(
-                    text=str(MUL_Pxk_P(Polynom(ratio_arr1), NaturalNumber(self.entry_polynual2.get()))))
+                    text=str(MUL_Pxk_P(Polynom(ratio_arr1), NaturalNumber(self.entry_polynual3.get()))))
             elif (self.radio_var_polynual.get() == 4):
                 self.label_res_polynual.configure(text=str(LED_P_Q(Polynom(ratio_arr1))))
             elif (self.radio_var_polynual.get() == 5):
                 self.label_res_polynual.configure(text=str(DEG_P_N(Polynom(ratio_arr1))))
             elif (self.radio_var_polynual.get() == 6):
-                self.label_res_polynual.configure(text=str(FAC_P_Q(Polynom(ratio_arr1))))
+                self.label_res_polynual.configure(text=str(FAC_P_Q(Polynom(ratio_arr1))[1]))
             elif (self.radio_var_polynual.get() == 7):
                 self.label_res_polynual.configure(
                     text=str(MUL_PP_P(Polynom(ratio_arr1), Polynom(ratio_arr2))))

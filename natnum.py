@@ -27,7 +27,9 @@ class NaturalNumber:
         
         if type(x) == int:
             x = str(x)
-            
+        if x == '':
+            self.digits = [0]
+            return
         #избавление от ведущих нулей
         x.lstrip("0")
 
@@ -479,8 +481,7 @@ def nat_lcm(n1, n2):
 #             print(a, b, ngcc, gcd(a,b), nlcm, lcm(a,b))
 
 def main():
-    print(nat_div(NaturalNumber(1231452145214532145321453214512345613433543521452145214532145321453214532145),  NaturalNumber(3)))
-    print(1231452145214532145321453214512345613433543521452145214532145321453214532145//3)
+    print(NaturalNumber(''))
 
 if __name__ == '__main__':
     main()
