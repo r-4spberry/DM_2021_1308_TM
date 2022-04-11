@@ -257,8 +257,8 @@ def GCF_PP_P (p1, p2):
     P2=copy.deepcopy(p2)
     m=1
     while True:
-        P2 = MUL_PQ_P(P2, rational.DIV_QQ_Q(RationalNumber(1), P2.coef[0]))
-        P1 = MUL_PQ_P(P1, rational.DIV_QQ_Q(RationalNumber(1), P1.coef[0]))
+        P2 = FAC_P_Q(P1)[1]
+        P1 = FAC_P_Q(P1)[1]
         if (DEG_P_N(P1)>DEG_P_N(P2)):
             P1=MOD_PP_P(P1, P2)
             if DEG_P_N(P1) == 0 and P1.coef[0].numer == 0:

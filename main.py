@@ -10,8 +10,6 @@ import sys
 import tkinter
 import tkinter.messagebox
 import customtkinter
-from turtle import bgcolor
-from asyncio.windows_events import NULL
 from natnum import *
 from integer import *
 from rational import *
@@ -633,11 +631,11 @@ class App(customtkinter.CTk):
         self.label_info_polynual1.grid(row=1, column=0, sticky="we", padx=15, pady=15)
 
         self.entry_polynual1 = customtkinter.CTkEntry(master=self.frame_body_polynual, width=120,
-                                                      placeholder_text="Введите коэффициенты многочлена через <,>",
+                                                      placeholder_text="Введите коэффициенты многочлена через < > (1/2 0 1 3/2)",
                                                       text="")
         self.entry_polynual1.grid(row=2, column=0, columnspan=2, pady=20, padx=20, sticky="we")
         self.entry_polynual2 = customtkinter.CTkEntry(master=self.frame_body_polynual, width=120,
-                                                      placeholder_text="Введите коэффициенты второго многочлена через <,>",
+                                                      placeholder_text="Введите коэффициенты второго многочлена через < > (1/2 0 1 3/2)",
                                                       text="")
         self.entry_polynual2.grid(row=3, column=0, columnspan=2, pady=20, padx=20, sticky="we")
 
