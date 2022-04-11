@@ -152,8 +152,9 @@ def FAC_P_Q(p1):
     chisl=[]
     k=natnum.NaturalNumber
     for i in range(len(p3.coef)):
-        chisl.append(p3.coef[i].numer)
-        znam.append(p3.coef[i].denom)
+        if p3.coef[i].numer != 0:
+            chisl.append(p3.coef[i].numer)
+            znam.append(p3.coef[i].denom)
 
     while (len(znam)!=1):
         k=natnum.nat_lcm(znam[0],znam[1])
