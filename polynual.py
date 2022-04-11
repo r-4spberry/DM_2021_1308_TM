@@ -255,7 +255,6 @@ def GCF_PP_P (p1, p2):
     """
     P1=copy.deepcopy(p1)
     P2=copy.deepcopy(p2)
-    print(P1, P2)
     m=1
     while True:
         P2 = FAC_P_Q(P2)[1]
