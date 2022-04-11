@@ -214,7 +214,8 @@ def divmod(p1, p2):
     """
     p1 = copy.deepcopy(p1)
     p2 = copy.deepcopy(p2)
-
+    if p2 == 0:
+        return p1
     if DEG_P_N(p1) < DEG_P_N(p2):
         return Polynom([RationalNumber()]), p1
 
