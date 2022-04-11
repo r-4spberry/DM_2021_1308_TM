@@ -221,6 +221,8 @@ def divmod(p1, p2):
     ans = Polynom([])
     d = LED_P_Q(p2)
     
+    diff = DEG_P_N(p1) - DEG_P_N(p2)
+    
     while (diff >= 0 and (DEG_P_N(p1) != 0 or LED_P_Q(p1).numer != 0)):
         T = MUL_Pxk_P(Polynom([rational.DIV_QQ_Q(LED_P_Q(p1),LED_P_Q(p2))]), diff)
         p1 = SUB_PP_P(p1, MUL_PP_P(T, p2))
