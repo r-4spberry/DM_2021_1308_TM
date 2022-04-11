@@ -439,7 +439,7 @@ def nat_gcd(n1, n2):
         raise ValueError("at least one of n1 and n2 must be non-zero")
     
     if nat_cmp(n2, NaturalNumber(0)) == 0:
-        return NaturalNumber(0)
+        return n1
     
     while True:
         c = nat_mod(n1, n2)

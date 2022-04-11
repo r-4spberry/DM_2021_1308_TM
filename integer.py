@@ -341,8 +341,15 @@ def DIV_ZZ_Z(i1,i2):
         #Делим числа как натуральеы
         x=natnum.nat_div(mod1, mod2)
         #Если знак одинаковый возвращаем частное как целое
-        if (otric1==1 and otric2==1) or (otric1==2 and otric2==2):
+        if (otric1==2 and otric2==2):
             return TRANS_N_Z(x)
+        if (otric1==1 and otric2==1):
+            #Если делится без остатка - возвращаем результат деления модулей, иначе - на единицу больше
+            if SUB_ZZ_Z(MUL_ZZ_Z(TRANS_N_Z(x),TRANS_N_Z(mod2)),TRANS_N_Z(mod1)).is_zero():
+                return TRANS_N_Z(x)
+            else:
+                x.add_1()
+                return TRANS_N_Z(x)
         if (otric1 == 1 and otric2 == 2):
             #Если разность между модуля числителя  и модулем произведения частного и знаменателя равна
             #нулю возвращаем частное с знаком минус
@@ -371,29 +378,8 @@ def MOD_ZZ_Z(i1,i2):
 
     i1 = copy.deepcopy(i1)
     i2 = copy.deepcopy(i2)
-    otric1 = POZ_Z_D(i1)
-    otric2 = POZ_Z_D(i2)
-    #Если знаменатель отрицательный сделаем его положительным
-    if otric1!=1 and otric2==1:
-        i2=MUL_ZM_Z(i2)
-    if otric1 == 1 and otric2 == 1:
-        i2 = MUL_ZM_Z(i2)
-
-    mod1 = ABS_Z_N(i1)
-    mod2 = ABS_Z_N(i2)
-    x=DIV_ZZ_Z(i1,i2)
-
-    y=MUL_ZZ_Z(x,i2)
-    #Если произведение частного и знаменателя при вычитания из числителя равно нулю возвращаем нуль
-    if SUB_ZZ_Z(y,i1).is_zero():
-        return Integer(0)
-
-    else:
-        #Иначе возвращаем разность числителя и произведения знаменателя и частного
-        if (otric1 == 2 and otric2 == 1) or (otric1 == 1 and otric2 == 2):
-            return ((SUB_ZZ_Z(i1,y)))
-        else:
-            return SUB_ZZ_Z(i1,y)
+    
+    return SUB_ZZ_Z(i1, MUL_ZZ_Z(i2, DIV_ZZ_Z(i1, i2)))
 
 
 

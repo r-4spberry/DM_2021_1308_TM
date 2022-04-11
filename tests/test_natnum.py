@@ -192,7 +192,7 @@ class TestNat(unittest.TestCase):
         self.assertEqual(nat_gcd(NaturalNumber(1), NaturalNumber(1)), 1)
         self.assertEqual(nat_gcd(NaturalNumber(33), NaturalNumber(33)), 33)
         self.assertEqual(nat_gcd(NaturalNumber(124), NaturalNumber(16)), 4)
-        self.assertEqual(nat_gcd(NaturalNumber(15), NaturalNumber(0)), 0)
+        self.assertEqual(nat_gcd(NaturalNumber(15), NaturalNumber(0)), 15)
         self.assertEqual(nat_gcd(NaturalNumber(363), NaturalNumber(3)), 3)
 
     def test_lcm(self):
