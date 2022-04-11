@@ -379,7 +379,8 @@ def nat_div(n1, n2):
         raise TypeError("n1 must be a natural number")
     if type(n2) is not NaturalNumber:
         raise TypeError("n2 must be a natural number")
-    
+    if n2.is_zero():
+        raise ZeroDivisionError("n2 cannot be zero")
     n1 = NaturalNumber(str(n1))
     
     if nat_cmp(n1, n2) == 1:

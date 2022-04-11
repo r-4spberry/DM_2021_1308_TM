@@ -397,17 +397,8 @@ def MOD_ZZ_Z(i1,i2):
 
 
 
-"""   
-def main():
-    a, b = input().split()
-    n1 = NaturalNumber(a)
-    n2 = NaturalNumber(b)
-    print(f"НОД: {nat_gcd(n1, n2)}, НОК: {nat_lcm(n1, n2)}")
 
 
-if __name__ == '__main__':
-    main()
-"""
 
 def main():
     a, b = input().split()

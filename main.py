@@ -853,6 +853,8 @@ class App(customtkinter.CTk):
             self.label_res_natnum.configure(text="Неверное значение переменной!")
         except TypeError:
             self.label_res_natnum.configure(text="Неверный тип данных!")
+        except ZeroDivisionError:
+            self.label_res_natnum.configure(text="Деление на ноль!")
         print("Нажата кнопка для вычисления натуральных чисел")
 
     def button_calculate_integer_event(self):
@@ -886,6 +888,8 @@ class App(customtkinter.CTk):
             self.label_res_integer.configure(text="Неверное значение переменной!")
         except TypeError:
             self.label_res_integer.configure(text="Неверный тип данных!")
+        except ZeroDivisionError:
+            self.label_res_integer.configure(text="Деление на ноль!")
         print("Нажата кнопка для вычисления целых чисел")
 
     def button_calculate_rational_event(self):
@@ -921,6 +925,8 @@ class App(customtkinter.CTk):
             self.label_res_rational.configure(text="Неверное значение переменной!")
         except TypeError:
             self.label_res_rational.configure(text="Неверный тип данных!")
+        except ZeroDivisionError:
+            self.label_res_rational.configure(text="Деление на ноль!")
         print("Нажата кнопка для вычисления рациональных чисел")
 
     def button_calculate_polynual_event(self):
@@ -975,6 +981,8 @@ class App(customtkinter.CTk):
             self.label_res_polynual.configure(text="Неверное значение переменной!")
         except TypeError:
             self.label_res_polynual.configure(text="Неверный тип данных!")
+        except ZeroDivisionError:
+            self.label_res_polynual.configure(text="Деление на ноль!")
         print("Нажата кнопка для вычисления многочленов")
 
     # =============================================================================================================
