@@ -348,13 +348,17 @@ def DIV_NN_Dk(n1,n2):
     
     if nat_cmp(n1, NaturalNumber(0)) == 0:
         raise ZeroDivisionError
-    
+
+    #Ищем первый разряд n1, в который может поместиться
+    #n2, т.е. 1234 / 13 => 123, 123/11 => 12 и записываем
+    #его в t.
     t = NaturalNumber(n1.digits.pop())
     while nat_cmp(t, n2) == 1:
         t.digits.insert(0, (n1.digits.pop()))
     
     ans = NaturalNumber()
-    
+
+    #Считаем, сколько раз n2 помещается в t
     while True:
         try:
             t = nat_sub(t, n2)
@@ -362,6 +366,8 @@ def DIV_NN_Dk(n1,n2):
             
         except ValueError:
             break
+
+    #Добавляем к полученному числу столько нулей, сколько осталось разрядов в n1
     ans = nat_mul_by_10_pow(ans, len(n1.digits))
     
     return ans
@@ -387,6 +393,8 @@ def nat_div(n1, n2):
         raise ValueError("n1 must be greater than or equal to n2")
     
     ans = NaturalNumber()
+    
+    #Алгоритм аналогичен алгоритму деления в столбик
     while nat_cmp(n1, n2) != 1:
         t = DIV_NN_Dk(n1, n2)
         ans = nat_sum(ans, t)
@@ -407,7 +415,6 @@ def nat_mod(n1, n2):
     if type(n2) is not NaturalNumber:
         raise TypeError("n2 must be a natural number")
     
-
     ans = nat_div(n1, n2)
     ans = nat_sub(n1, nat_mul(ans, n2))
     
@@ -429,7 +436,9 @@ def nat_gcd(n1, n2):
     
     n1 = NaturalNumber(str(n1))
     n2 = NaturalNumber(str(n2))
-    
+
+    #n1 должно быть больше n2, в противном случае
+    #меняем их местами. 
     if nat_cmp(n1, n2) == 1:
         t = NaturalNumber(str(n1))
         n1 = NaturalNumber(str(n2))
@@ -437,10 +446,12 @@ def nat_gcd(n1, n2):
         
     if nat_cmp(n1, NaturalNumber(0)) == 0:
         raise ValueError("at least one of n1 and n2 must be non-zero")
-    
+
+    #НОД от ненулевого числа и нуля - всегда это же число
     if nat_cmp(n2, NaturalNumber(0)) == 0:
         return n1
-    
+
+    #Находим НОД чисел по алгоритму Эвклида
     while True:
         c = nat_mod(n1, n2)
         if nat_cmp(c, NaturalNumber(0)) == 0:
@@ -460,6 +471,7 @@ def nat_lcm(n1, n2):
     n1 = NaturalNumber(str(n1))
     n2 = NaturalNumber(str(n2))
 
+    #НОК чисел является их произведением, сокращенным на их НОД
     m = nat_mul(n1, n2)
     gcc = nat_gcd(n1, n2)
     if nat_cmp(gcc, NaturalNumber(0)) == 0:
