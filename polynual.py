@@ -1,8 +1,18 @@
+# =============================================================================================================
+#		 Программный модуль для выполнения вычислений над многочленами
+# =============================================================================================================
+#		 @version   2.0
+#		 @author    Мельник Даниил, гр. 1308
+# =============================================================================================================
+
+
 from typing import List
 import rational
 import natnum
 import copy
 from rational import RationalNumber
+
+
 class Polynom:
     def __init__(self, coef: List[rational.RationalNumber]):
         """
@@ -38,6 +48,7 @@ class Polynom:
             self.coef.pop()
         if len(self.coef) == 0:
             self.coef = [RationalNumber(0)]
+ 
             
 def ADD_PP_P(p1, p2):
     """
@@ -61,6 +72,7 @@ def ADD_PP_P(p1, p2):
         k=rational.ADD_QQ_Q(p1r.coef[i],p2r.coef[i])
         p3.coef.append(k)
     return p3
+
 
 def SUB_PP_P(p1, p2):
     """
@@ -88,6 +100,7 @@ def SUB_PP_P(p1, p2):
             p3.coef.append(k)
     return p3
 
+
 def MUL_PQ_P (p1,x):
     """
     Принимает многочлен р1 типа Polynom, число х типа Rational
@@ -102,6 +115,7 @@ def MUL_PQ_P (p1,x):
     for i in range(0,len(p1.coef)):
         p3.coef[i] = rational.MUL_QQ_Q(p1.coef[i], x)
     return p3
+
 
 def MUL_Pxk_P (p1,k):
     """
@@ -130,6 +144,7 @@ def MUL_Pxk_P (p1,k):
     p3.coef.reverse()
     return p3
 
+
 def LED_P_Q(p1):
     """
     Возвращает старший коэффициент в формате RationalNumber многочлена р1 типа Polynom
@@ -140,6 +155,7 @@ def LED_P_Q(p1):
     # вывод элемента массива коэффициентов многочлена
     return p1r.coef[len(p1r.coef)-1]
 
+
 def DEG_P_N (p1):
     """
     Возвращает степень многочлена p1 типа Polynom
@@ -149,6 +165,7 @@ def DEG_P_N (p1):
     p1r=copy.deepcopy(p1)
     # вывод длины массива коэффициентов многочлена
     return len(p1r.coef)-1
+
 
 def FAC_P_Q(p1):
     """
@@ -197,6 +214,7 @@ def FAC_P_Q(p1):
         p4.coef.append(d)
     return P, p4
 
+
 def MUL_PP_P(pP,pA): 
     """
     Принимает на вход многочлены типа Polynom
@@ -236,6 +254,7 @@ def MUL_PP_P(pP,pA):
     P4.normalise()
     return P4
 
+
 def divmod(p1, p2):
     """
     Принимает на вход два многочлена типа Polynom
@@ -272,6 +291,7 @@ def divmod(p1, p2):
     
     return ans, p1
 
+
 def DIV_PP_P (p1,p2):
     """
     Принимает на вход два многочлена типа Polynom
@@ -289,6 +309,7 @@ def MOD_PP_P (p1,p2):
     Выполнил: Мельник Даниил
     """
     return divmod(p1, p2)[1]
+
 
 def GCF_PP_P (p1, p2):
     """
@@ -347,6 +368,7 @@ def DER_P_P (p1):
 
     return Res
 
+
 def NMR_P_P(p):
     """
     Возвращает многочлен с сокращенными кратными корнями
@@ -363,12 +385,13 @@ def NMR_P_P(p):
     ans = DIV_PP_P(p, d)
     return ans
 
-def main():
 
+def main():
     p1 = Polynom([rational.RationalNumber(1, 1), rational.RationalNumber(1, 1), rational.RationalNumber(3, 1),
                                              rational.RationalNumber(6, 1)])
     p2= Polynom([rational.RationalNumber(1, 1), rational.RationalNumber(1, 1), rational.RationalNumber(3, 1)])
     print(GCF_PP_P(p1, p2))
+    
     
 if __name__ == "__main__":
     main()

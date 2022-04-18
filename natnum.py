@@ -1,7 +1,16 @@
+# =============================================================================================================
+#		 Программный модуль для выполнения вычислений над натуральными числами
+# =============================================================================================================
+#		 @version   2.0
+#		 @author    Томилов Даниил, гр. 1308
+# =============================================================================================================
+
+
 from logging import raiseExceptions
 from typing import List
 import copy
 import cProfile
+
 
 class NaturalNumber:
     """ 
@@ -108,6 +117,7 @@ class NaturalNumber:
     def remove_leading_zeros(self):
         while self.digits[-1] == 0 and len(self.digits) > 1:
             self.digits.pop()
+   
     
 def nat_sum(n1, n2):
     """
@@ -142,6 +152,7 @@ def nat_sum(n1, n2):
     
     return n2
     #тут дальше весь нужный код со всеми нужными комментариями
+
 
 def nat_sub(n1, n2):
     """
@@ -204,6 +215,7 @@ def nat_cmp(n1,n2):
 
         return 2 if n1.digits[i] > n2.digits[i] else 1
 
+
 def nat_mul_by_digit(n, d):
     """
     MUL_ND_N
@@ -242,6 +254,7 @@ def nat_mul_by_digit(n, d):
     
     return n
 
+
 def nat_mul_by_10_pow(n, k):
     """
     MUL_Nk_N
@@ -272,6 +285,7 @@ def nat_mul_by_10_pow(n, k):
     
     return n
 
+
 def nat_mul(n1, n2):
     """
     Умножение натурального n1 на n2
@@ -294,6 +308,7 @@ def nat_mul(n1, n2):
         ans = nat_sum(ans, t)
         
     return ans
+
 
 def SUB_NDN_N(n1, n2, d):
     """
@@ -326,6 +341,7 @@ def SUB_NDN_N(n1, n2, d):
     n1 = nat_sub(n1, n2)
     
     return n1
+
 
 def DIV_NN_Dk(n1,n2):
     """
@@ -372,6 +388,7 @@ def DIV_NN_Dk(n1,n2):
     
     return ans
 
+
 def nat_div(n1, n2):
     """
     DIV_NN_N
@@ -401,6 +418,7 @@ def nat_div(n1, n2):
         n1 = nat_sub(n1, nat_mul(n2, t))
     return ans
 
+
 def nat_mod(n1, n2):
     """
     DIV_NN_N
@@ -419,6 +437,7 @@ def nat_mod(n1, n2):
     ans = nat_sub(n1, nat_mul(ans, n2))
     
     return ans
+
 
 def nat_gcd(n1, n2):
     """
@@ -458,6 +477,7 @@ def nat_gcd(n1, n2):
             return n2
         n1 = NaturalNumber(str(n2))
         n2 = copy.deepcopy(c)
+   
     
 def nat_lcm(n1, n2):
     """
@@ -478,6 +498,7 @@ def nat_lcm(n1, n2):
         raise ValueError("n1 and n2 must be positive")
     return nat_div(m, gcc)
 
+
 # def main():
 #     from math import gcd, lcm
 #     from random import randrange as rr
@@ -493,9 +514,10 @@ def nat_lcm(n1, n2):
 #         if ngcc != gcd(a,b) or nlcm != lcm(a,b):
 #             print(a, b, ngcc, gcd(a,b), nlcm, lcm(a,b))
 
+
 def main():
     print(NaturalNumber(''))
 
+
 if __name__ == '__main__':
     main()
-    
