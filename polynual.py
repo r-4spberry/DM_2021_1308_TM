@@ -25,6 +25,11 @@ class Polynom:
             coef = []
         self.coef = coef
     def __str__(self):
+        """
+        Возвращает repr(self)
+        
+        Выполнил: Томилов Даниил
+        """
         s = ""
         for i in range(len(self.coef)-1, -1, -1):
             if self.coef[i].numer != 0 or len(self.coef) == 1:
@@ -40,10 +45,21 @@ class Polynom:
                         s += f"x+"
         s = s.rstrip("+")
         return s
+
     def __repr__(self):
-        return f"Polynom({repr(self.coef)})"
+        """
+        Возвращает repr(self)
+        
+        Выполнил: Мельник Даниил
+        """
+        return f"Polynom([{repr(self.coef)}])"
     
     def normalise(self):
+        """
+        Убирает нулевые старшие коэффициенты
+        
+        Выполнил: Мельник Даниил
+        """
         while len(self.coef) > 1 and self.coef[-1].numer == 0:
             self.coef.pop()
         if len(self.coef) == 0:
@@ -57,20 +73,24 @@ def ADD_PP_P(p1, p2):
 
     Выполнил: Мельник Даниил
     """
+    
     p3 = Polynom([]) # создание чистого многочлена
     p2r=copy.deepcopy(p2) # копирование исхлдных данных для обработки
     p1r=copy.deepcopy(p1)
+    
     # дополнение меньшего многочлена до длины большего созданием нулевых коэффициентов при больших степенях
     if (len(p2r.coef)<len(p1r.coef)):
         for i in range(len(p1r.coef)-len(p2r.coef)):
             p2r.coef.append(rational.RationalNumber('0','1'))
-    if (len(p1r.coef)<len(p2r.coef)):
+    else:
         for i in range(len(p2r.coef)-len(p1r.coef)):
             p1r.coef.append(rational.RationalNumber('0','1'))
+            
     #сложение коэффициентов многочленов с формированием нового многочлена
     for i in range (len(p1r.coef)):
         k=rational.ADD_QQ_Q(p1r.coef[i],p2r.coef[i])
         p3.coef.append(k)
+        
     return p3
 
 
@@ -86,13 +106,15 @@ def SUB_PP_P(p1, p2):
     p3=Polynom([])
     p1r=copy.deepcopy(p1)
     p2r=copy.deepcopy(p2)
+    
     # дополнение меньшего многочлена до длины большего созданием нулевых коэффициентов при больших степенях
     if (len(p2r.coef)<len(p1r.coef)):
         for i in range(len(p1r.coef)-len(p2r.coef)):
             p2r.coef.append(rational.RationalNumber('0','1'))
-    if (len(p1r.coef)<len(p2r.coef)):
+    else:
         for i in range(len(p2r.coef)-len(p1r.coef)):
             p1r.coef.append(rational.RationalNumber('0','1'))
+
     # вычитание коэффициентов многочленов с формированием нового многочлена
     for i in range (0,len(p1r.coef)):
         if (i<len(p2r.coef)):
@@ -111,6 +133,7 @@ def MUL_PQ_P (p1,x):
     """
     #создание чистого многочлена
     p3=copy.deepcopy(p1)
+    
     #умножение каждого коэффициента многочлена на рациональное число
     for i in range(0,len(p1.coef)):
         p3.coef[i] = rational.MUL_QQ_Q(p1.coef[i], x)
@@ -133,11 +156,11 @@ def MUL_Pxk_P (p1,k):
         
     if type(k) is int:
         k = natnum.NaturalNumber(k)
+        
     #дополнение длины массива коэффициентов многочлена на количество элементов, равное степени х
     p3=copy.deepcopy(p1)
     p3.coef.reverse()
     i = natnum.NaturalNumber(0)
-    #удаление лишних нулевых (сдвинутых дополнением) коэффициентов многочлена
     while natnum.nat_cmp(k, i) != 0:
         p3.coef.append(rational.RationalNumber(0,1))
         i.add_1()
@@ -151,9 +174,8 @@ def LED_P_Q(p1):
 
     Выполнил: Мельник Даниил
     """
-    p1r=copy.deepcopy(p1)
     # вывод элемента массива коэффициентов многочлена
-    return p1r.coef[len(p1r.coef)-1]
+    return p1.coef[len(p1.coef)-1]
 
 
 def DEG_P_N (p1):
@@ -162,9 +184,9 @@ def DEG_P_N (p1):
 
     Выполнил: Мельник Даниил
     """
-    p1r=copy.deepcopy(p1)
+    
     # вывод длины массива коэффициентов многочлена
-    return len(p1r.coef)-1
+    return len(p1.coef)-1
 
 
 def FAC_P_Q(p1):
@@ -176,9 +198,9 @@ def FAC_P_Q(p1):
     Выполнил: Мельник Даниил
     """
     # создание переменных-копий
-    p3=Polynom([])
     p1=copy.deepcopy(p1)
     p2=Polynom([])
+    p3=Polynom([])
     p4=Polynom([])
     p3.coef=p1.coef
     p2.coef=p1.coef
@@ -203,6 +225,7 @@ def FAC_P_Q(p1):
         for i in range(2):
             chisl.pop(0)
         chisl.insert(0,k)
+
     # нулевые элементы полученных массивов - НОК занменателей и НОД числителей
     nzn=znam[0]
     nch=chisl[0]
@@ -225,10 +248,10 @@ def MUL_PP_P(pP,pA):
     """
     pP=copy.deepcopy(pP)
     pA=copy.deepcopy(pA)
-
+    res=Polynom([])
+    
     # дополнение меньшего по длине (в количестве коэффициентов) до длины большего
     if (len(pP.coef)<len(pA.coef)):
-
         for i in range(len(pA.coef)-len(pP.coef)):
             pP.coef.append(RationalNumber('0','1'))
 
@@ -236,13 +259,14 @@ def MUL_PP_P(pP,pA):
         for i in range(len(pP.coef)-len(pA.coef)):
             pA.coef.append(RationalNumber('0','1'))
 
-    P4=Polynom([])
+
     # дополнение результирующего многочлена с учётом разности степеней умножаемых
     deg=2*(len(pP.coef)-1)
     for i in range (deg+1):
-        P4.coef.append(RationalNumber('0','1'))
+        res.coef.append(RationalNumber('0','1'))
+
     # умножение одного многочлена на коэффициент другого с учётом степени
-    # полученный после умножения многочлен добавляется к результирующему P4
+    # полученный после умножения многочлен добавляется к результирующему.
     for i in range(0, len(pP.coef)):
         if(i<len(pA.coef)):
             P1 = MUL_Pxk_P(pP, i)
@@ -250,9 +274,9 @@ def MUL_PP_P(pP,pA):
             P2r=copy.deepcopy(P2)
             for j in range (deg+1-len(P2.coef)):
                 P2r.coef.append(RationalNumber('0','1'))
-            P4= ADD_PP_P(P2r,P4)
-    P4.normalise()
-    return P4
+            res= ADD_PP_P(P2r,res)
+    res.normalise()
+    return res
 
 
 def divmod(p1, p2):
@@ -355,7 +379,7 @@ def DER_P_P (p1):
     Res=Polynom([])
 
     # показатели степеней для домножения их на соответствующие коэффициенты
-    # по переменной разности m  и f
+    # по переменной разности m и f
     f=len(P1.coef)-1
     m=len(P1.coef)-1
     for i in range (len(P1.coef)):

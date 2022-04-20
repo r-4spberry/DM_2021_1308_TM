@@ -180,8 +180,6 @@ def ADD_ZZ_Z(i1, i2):
 
     i1 = copy.deepcopy(i1)
     i2 = copy.deepcopy(i2)
-    znak1 = POZ_Z_D(i1)
-    znak2 = POZ_Z_D(i2)
     mod1 = ABS_Z_N(i1)
     mod2 = ABS_Z_N(i2)
     #Если оба числа отрицательны, суммируя оставляя минус
@@ -248,74 +246,13 @@ def SUB_ZZ_Z(i1,i2):
     """
     i1 = copy.deepcopy(i1)
     i2 = copy.deepcopy(i2)
-    znak1 = POZ_Z_D(i1)
-    znak2 = POZ_Z_D(i2)
-    mod1 = ABS_Z_N(i1)
-    mod2 = ABS_Z_N(i2)
 
-    if i1.sign and i2.sign: #оба отрицательные
-        # Если вычетаемое число меньше, оставляем знак минуса
-        if natnum.nat_cmp(mod1, mod2) == 2:
-            i = Integer(natnum.nat_sub(mod1, mod2).__str__())
-            i.sign = i1.sign
-        # Если вычетаемое число меньше, меняем на знак плюса
-        elif natnum.nat_cmp(mod1, mod2) == 1:
-            i = Integer(natnum.nat_sub(mod2, mod1).__str__())
-        # Если числа равны
-        else:
-            i = Integer(0)
-    elif i1.sign: #Если  только число из которого вычетают отрицательно
-        #Суммируем числа оставляя знак минуса
-        i = Integer(natnum.nat_sum(mod1, mod2).__str__())
-        i.sign = i1.sign
-    elif i2.sign: #Если только вычетаемое число отрицательно
-        #Суммируем числа оставляя знак плюс
-        i = Integer(natnum.nat_sum(mod1, mod2).__str__())
-    else:                               #оба положительные
-        # Если вычитаемое число меньше, производим разность оставлляя знак плюса
-        if natnum.nat_cmp(mod1, mod2) == 2:
-            i = Integer(natnum.nat_sub(mod1, mod2).__str__())
-        # Если вычитаемое число больше, производим разность оставлляя знак минуса
-        elif natnum.nat_cmp(mod1, mod2) == 1:
-            i = Integer(natnum.nat_sub(mod2, mod1).__str__())
-            i.sign = True
-        #Если числа равны
-        else:
-            i = Integer(0)
-    return i
-
-    # i1 = copy.deepcopy(i1)
-    # i2 = copy.deepcopy(i2)
-    # otric1 = POZ_Z_D(i1)
-    # otric2 = POZ_Z_D(i2)
-    # mod1 = ABS_Z_N(i1)
-    # mod2 = ABS_Z_N(i2)
-    # fl1 = 0
-    # fl2=0
-    # if nat_cmp(mod1, mod2) == 1:
-    #     mod1, mod2 = mod2, mod1
-    #     if otric1 == 1:
-    #         fl1 = 1 #отрицательое меньшее
-    #     if otric2 == 1:
-    #         fl2 = 1 #отрицательое большее
-    # elif otric2==1:
-    #     fl2= 1 #отрицательое меньшее
-    #     if otric1==1:
-    #         fl1=1 #отрицательое большее
-    # elif otric1==1:
-    #         fl1=1 #отрицательое большее
-    # if fl1==1:
-    #     if fl2==1 and mod1!=mod2:
-    #         return MUL_ZM_Z(TRANS_N_Z(nat_sub(mod1,mod2))) # из отрицательного вычитается отрицательное
-    #     if fl2==0 :
-    #         return MUL_ZM_Z(TRANS_N_Z(nat_sum(mod1,mod2))) # Из отрицательного вычитается положительное
-    #     if mod1==mod2:
-    #         return (TRANS_N_Z(nat_sub(mod1,mod2))) # два числа с одинаковым знаком и одинаковым значением
-    # else:
-    #     if fl2==1:
-    #         return (TRANS_N_Z(nat_sum(mod1,mod2))) # Из положительного вычитают отрицательное
-    #     if fl2==0 :
-    #         return (TRANS_N_Z(nat_sub(mod1,mod2))) # Из положительного вычитается положительное
+    #меняем знак второго числа
+    i2.sign = 1-i2.sign
+    
+    ans = ADD_ZZ_Z(i1,i2)
+    
+    return ans
 
 
 def MUL_ZZ_Z(i1,i2):
@@ -389,11 +326,7 @@ def DIV_ZZ_Z(i1,i2):
                 x.add_1()
                 return MUL_ZM_Z(TRANS_N_Z(x))
         if (otric1 == 2 and otric2 == 1):
-            if SUB_ZZ_Z(MUL_ZZ_Z(TRANS_N_Z(x),TRANS_N_Z(mod2)),TRANS_N_Z(mod1)).is_zero():
-                return MUL_ZM_Z(TRANS_N_Z(x))
-            # если числа делятся с остатком возвращаем отрицательное (частное)
-            else:
-                return MUL_ZM_Z(TRANS_N_Z(x))
+            return MUL_ZM_Z(TRANS_N_Z(x))
 
 
 def MOD_ZZ_Z(i1,i2):

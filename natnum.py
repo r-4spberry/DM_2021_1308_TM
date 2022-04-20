@@ -127,6 +127,7 @@ def nat_sum(n1, n2):
     Выполнил: Томилов Даниил
     """
     
+    n1 = NaturalNumber(str(n1))
     n2 = NaturalNumber(str(n2))
 
     #Ставим числа в убывающем порядке

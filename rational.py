@@ -17,6 +17,7 @@ class RationalNumber():
         Атрибуты класса:
             numer -- числитель рационального числа
             denom -- знаменатель рационального числа
+            sign  -- знак рационального числа. 1 - отрицательное, 0 - положительное
     """
 
     def __init__(self, x=0, y=1):
@@ -38,6 +39,10 @@ class RationalNumber():
 
         self.numer = ABS_Z_N(Integer(x))    # числитель
         self.denom = NaturalNumber(y)   # знаменатель
+        
+        if self.denom == NaturalNumber(0):
+            raise ZeroDivisionError("Знаменатель не может равняться нулю")
+        
         self.sign = '-' == x.__str__()[0]   # знак
 
     def __str__(self) -> str:
@@ -57,7 +62,7 @@ class RationalNumber():
         Выполнил: Пакулов Илья
         """
 
-        return f"RationalNumber{str(self)}"
+        return "RationalNumber("+("-" if self.sign else "")+f"{self.numer},{self.denom})"
 
 
 def RED_Q_Q(q1):
@@ -82,12 +87,12 @@ def RED_Q_Q(q1):
         answer = RationalNumber(0, int(n.__str__()))
     # если знаменатель равен 0
     else:
-        raise ValueError("значение знаменателя должно быть натуральным числом")
+        raise ZeroDivisionError("Знаменатель не может равняться нулю")
     answer.sign = q1.sign   # запоминаем знак
     return answer
 
 
-def INT_Q_B(q1) -> bool:
+def INT_Q_B(q1):
     """
         Принимает рациональное число - дробь вида (z;n), где z - целое, n - натуральное
         Возвращает 1, если число является целым, иначе - 0
@@ -101,7 +106,6 @@ def INT_Q_B(q1) -> bool:
     # если числитель равен нулю
     if q1.numer == 0:
         answer = True
-    # иначе
     else:
         q1 = RationalNumber(str(q1.numer), str(q1.denom))
         red = RED_Q_Q(q1)   # сокращаем
@@ -120,7 +124,7 @@ def TRANS_Z_Q(z1):
     """
 
     if type(z1) != Integer:
-        raise TypeError("аргумент должено быть целым числом")
+        raise TypeError("аргумент должен быть целым числом")
     q1 = RationalNumber(int(z1.__str__()), 1)   # преобразуем в дробь
     q1.sign = z1.sign   # запоминаем знак
     return q1
@@ -146,7 +150,7 @@ def TRANS_Q_Z(q1):
         if q1.denom == 1:
             z1 = Integer(q1.numer.__str__())
         else:
-            raise TypeError("знаменатель дроби должен быть равен 1")
+            raise ValueError("знаменатель дроби должен быть равен 1")
         # разбираемся со знаком
         if q1.sign:
             z1 = MUL_ZM_Z(z1)
@@ -163,21 +167,29 @@ def ADD_QQ_Q(q1, q2):
 
     if type(q1) != RationalNumber or type(q2) != RationalNumber:
         raise TypeError("аргумент должен быть рациональным числом (дробью вида (z, n), где z - целое число, n - натуральное")
+   
     z1 = Integer(q1.numer.__str__())
-    z1.sign = q1.sign   # запоминаем знак
     z2 = Integer(q2.numer.__str__())
+    z1.sign = q1.sign   # запоминаем знак
     z2.sign = q2.sign   # запоминаем знак
-    n1 = NaturalNumber(q1.denom.__str__())  # знаменатель первой дроби
-    n2 = NaturalNumber(q2.denom.__str__())  # знаменатель второй дроби
+    
+    n1 = NaturalNumber(q1.denom.__str__())
+    n2 = NaturalNumber(q2.denom.__str__())
+    
     n = nat_lcm(n1, n2)     # НОК знаменателей
+    
     mult1 = Integer(nat_div(n, n1).__str__())   # делим НОК на знаменатель
     mult2 = Integer(nat_div(n, n2).__str__())   # делим НОК на знаменатель
+    
     z1 = MUL_ZZ_Z(mult1, z1)    # находим числитель новой дроби
     z2 = MUL_ZZ_Z(mult2, z2)    # находим числитель новой дроби
+    
     sm = ADD_ZZ_Z(z1, z2)   # сумма числителей
+    
     answer = RationalNumber(ABS_Z_N(sm).__str__(), n.__str__())
     answer.sign = sm.sign   # запоминаем знак
     answer = RED_Q_Q(answer)    # сокращаем
+    
     return answer
 
 
@@ -191,21 +203,13 @@ def SUB_QQ_Q(q1, q2):
 
     if type(q1) != RationalNumber or type(q2) != RationalNumber:
         raise TypeError("аргумент должен быть рациональным числом (дробью вида (z, n), где z - целое число, n - натуральное")
-    z1 = Integer(q1.numer.__str__())
-    z1.sign = q1.sign   # запоминаем знак
-    z2 = Integer(q2.numer.__str__())
-    z2.sign = q2.sign   # запоминаем знак
-    n1 = NaturalNumber(q1.denom.__str__())  # знаменатель первой дроби
-    n2 = NaturalNumber(q2.denom.__str__())  # знаменатель второй дроби
-    n = nat_lcm(n1, n2)     # НОК знаменателей
-    mult1 = Integer(nat_div(n, n1).__str__())   # делим НОК на знаменатель
-    mult2 = Integer(nat_div(n, n2).__str__())   # делим НОК на знаменатель
-    z1 = MUL_ZZ_Z(mult1, z1)  # находим числитель новой дроби
-    z2 = MUL_ZZ_Z(mult2, z2)  # находим числитель новой дроби
-    z = SUB_ZZ_Z(z1, z2)    # разность числителей
-    answer = RationalNumber(z.__str__(), n.__str__())
-    answer.sign = z.sign  # запоминаем знак
-    answer = RED_Q_Q(answer)  # сокращаем
+    
+    q2 = copy.deepcopy(q2)
+    
+    #меняем знак второй дроби на противоположный
+    q2.sign = 1-q2.sign
+    
+    answer = ADD_QQ_Q(q1, q2)
     return answer
 
 
@@ -219,14 +223,18 @@ def MUL_QQ_Q(q1, q2):
 
     if type(q1) != RationalNumber or type(q2) != RationalNumber:
         raise TypeError("аргумент должен быть рациональным числом (дробью вида (z, n), где z - целое число, n - натуральное")
+    
     z1 = Integer(q1.numer.__str__())
-    z1.sign = q1.sign  # запоминаем знак
     z2 = Integer(q2.numer.__str__())
-    z2.sign = q2.sign  # запоминаем знак
-    n1 = NaturalNumber(q1.denom.__str__())  # знаменатель первой дроби
-    n2 = NaturalNumber(q2.denom.__str__())  # знаменатель второй дроби
+    z1.sign = q1.sign   # запоминаем знак
+    z2.sign = q2.sign   # запоминаем знак
+    
+    n1 = NaturalNumber(q1.denom.__str__())
+    n2 = NaturalNumber(q2.denom.__str__())
+    
     z = MUL_ZZ_Z(z1, z2)    # произведение числителей
     n = nat_mul(n1, n2)     # произведение знаменателей
+    
     answer = RationalNumber(z.__str__(), n.__str__())
     answer = RED_Q_Q(answer)    # сокращаем
     return answer
@@ -245,8 +253,6 @@ def DIV_QQ_Q(q1, q2):
     z1 = Integer(q1.numer.__str__())
     z1.sign = q1.sign   # запоминаем знак
     n2 = Integer(q2.numer.__str__())
-    if n2.is_zero():
-        raise TypeError("Знаменатель должен быть отличен от нуля")
     z2 = NaturalNumber(q2.denom.__str__())
     # симуляция переворота дроби
     z2 = TRANS_N_Z(z2)
