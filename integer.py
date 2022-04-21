@@ -86,6 +86,7 @@ class Integer:
             return True
         else:
             return False
+        
     def __eq__(self, other):
         if type(self) == type(other):
             return self.digits == other.digits

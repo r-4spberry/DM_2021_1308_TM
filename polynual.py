@@ -75,8 +75,8 @@ def ADD_PP_P(p1, p2):
     """
     
     p3 = Polynom([]) # создание чистого многочлена
-    p2r=copy.deepcopy(p2) # копирование исхлдных данных для обработки
-    p1r=copy.deepcopy(p1)
+    p2r= Polynom(p2.coef[::]) # копирование исхлдных данных для обработки
+    p1r= Polynom(p1.coef[::])
     
     # дополнение меньшего многочлена до длины большего созданием нулевых коэффициентов при больших степенях
     if (len(p2r.coef)<len(p1r.coef)):
@@ -86,7 +86,7 @@ def ADD_PP_P(p1, p2):
         for i in range(len(p2r.coef)-len(p1r.coef)):
             p1r.coef.append(rational.RationalNumber('0','1'))
             
-    #сложение коэффициентов многочленов с формированием нового многочлена
+        #сложение коэффициентов многочленов с формированием нового многочлена
     for i in range (len(p1r.coef)):
         k=rational.ADD_QQ_Q(p1r.coef[i],p2r.coef[i])
         p3.coef.append(k)
@@ -104,8 +104,8 @@ def SUB_PP_P(p1, p2):
     """
     # создание чистого многочлена, копирование исходных данных
     p3=Polynom([])
-    p1r=copy.deepcopy(p1)
-    p2r=copy.deepcopy(p2)
+    p1r=Polynom(p1.coef[::])
+    p2r=Polynom(p2.coef[::])
     
     # дополнение меньшего многочлена до длины большего созданием нулевых коэффициентов при больших степенях
     if (len(p2r.coef)<len(p1r.coef)):
@@ -132,7 +132,7 @@ def MUL_PQ_P (p1,x):
     Выполнил: Мельник Даниил
     """
     #создание чистого многочлена
-    p3=copy.deepcopy(p1)
+    p3=Polynom(p1.coef[::])
     
     #умножение каждого коэффициента многочлена на рациональное число
     for i in range(0,len(p1.coef)):
@@ -158,7 +158,7 @@ def MUL_Pxk_P (p1,k):
         k = natnum.NaturalNumber(k)
         
     #дополнение длины массива коэффициентов многочлена на количество элементов, равное степени х
-    p3=copy.deepcopy(p1)
+    p3=Polynom(p1.coef[::])
     p3.coef.reverse()
     i = natnum.NaturalNumber(0)
     while natnum.nat_cmp(k, i) != 0:
@@ -198,7 +198,7 @@ def FAC_P_Q(p1):
     Выполнил: Мельник Даниил
     """
     # создание переменных-копий
-    p1=copy.deepcopy(p1)
+    p1=Polynom(p1.coef[::])
     p2=Polynom([])
     p3=Polynom([])
     p4=Polynom([])
@@ -218,7 +218,7 @@ def FAC_P_Q(p1):
         for i in range(2):
             znam.pop(0)
         znam.insert(0,k)
-
+    
     # поиск массива НОД числителей (сравниваются соседние элементы)
     while (len(chisl)!=1):
         k=natnum.nat_gcd(chisl[0],chisl[1])
@@ -229,6 +229,7 @@ def FAC_P_Q(p1):
     # нулевые элементы полученных массивов - НОК занменателей и НОД числителей
     nzn=znam[0]
     nch=chisl[0]
+    
     # формирование дроби из НОК и НОД
     P=rational.RationalNumber(str(nch),str(nzn))
     # деление каждокго коэффициента на дробь из НОК и НОД
@@ -246,8 +247,8 @@ def MUL_PP_P(pP,pA):
 
     Выполнил: Мельник Даниил
     """
-    pP=copy.deepcopy(pP)
-    pA=copy.deepcopy(pA)
+    pP=Polynom(pP.coef[::])
+    pA=Polynom(pA.coef[::])
     res=Polynom([])
     
     # дополнение меньшего по длине (в количестве коэффициентов) до длины большего
@@ -268,13 +269,10 @@ def MUL_PP_P(pP,pA):
     # умножение одного многочлена на коэффициент другого с учётом степени
     # полученный после умножения многочлен добавляется к результирующему.
     for i in range(0, len(pP.coef)):
-        if(i<len(pA.coef)):
-            P1 = MUL_Pxk_P(pP, i)
-            P2 = MUL_PQ_P(P1, pA.coef[i])
-            P2r=copy.deepcopy(P2)
-            for j in range (deg+1-len(P2.coef)):
-                P2r.coef.append(RationalNumber('0','1'))
-            res= ADD_PP_P(P2r,res)
+        P1 = MUL_Pxk_P(pP, i)
+        P2 = MUL_PQ_P(P1, pA.coef[i])
+        
+        res= ADD_PP_P(P2,res)
     res.normalise()
     return res
 
@@ -287,8 +285,8 @@ def divmod(p1, p2):
 
     Выполнил: Мельник Даниил
     """
-    p1 = copy.deepcopy(p1)
-    p2 = copy.deepcopy(p2)
+    p1 = Polynom(p1.coef[::])
+    p2 = Polynom(p2.coef[::])
     
     #Если степень первого многочлена меньше степени второго -
     #целая часть равна нулю, а остаток - первому многочлену
@@ -310,6 +308,7 @@ def divmod(p1, p2):
         
         ans = ADD_PP_P(ans, T)
         diff = DEG_P_N(p1) - DEG_P_N(p2)
+        
     ans.normalise()
     p1.normalise()
     
@@ -335,7 +334,7 @@ def MOD_PP_P (p1,p2):
     return divmod(p1, p2)[1]
 
 
-def GCF_PP_P (p1, p2):
+def GCF_PP_P(p1, p2):
     """
     Приниает два многочлена типа Polynom
     Находит НОД двух многочленов
@@ -343,8 +342,8 @@ def GCF_PP_P (p1, p2):
 
     Выполнил: Мельник Даниил
     """
-    P1=copy.deepcopy(p1)
-    P2=copy.deepcopy(p2)
+    P1= Polynom(p1.coef[::])
+    P2= Polynom(p2.coef[::])
     m=1
     #Для вычисления используется алгоритм Евклида
     while True:
@@ -370,27 +369,18 @@ def DER_P_P (p1):
 
     Выполнил: Мельник Даниил
     """
-    P1=copy.deepcopy(p1)
+    P1= Polynom(p1.coef[::])
 
     # производная константы равна нулю
     if DEG_P_N(p1) == 0:
         return Polynom([rational.RationalNumber(0)])
 
-    Res=Polynom([])
+    for deg in range (DEG_P_N(p1), 0, -1): #домножаем a*x^deg на deg
+        P1.coef[deg] = rational.MUL_QQ_Q(P1.coef[deg], rational.RationalNumber(str(deg),'1'))
+    
+    P1.coef.pop(0) #Делим многочлен на x и убираем свободный член.
 
-    # показатели степеней для домножения их на соответствующие коэффициенты
-    # по переменной разности m и f
-    f=len(P1.coef)-1
-    m=len(P1.coef)-1
-    for i in range (len(P1.coef)):
-        k=f-i
-        h=rational.MUL_QQ_Q(P1.coef[m], rational.RationalNumber(str(k),'1'))
-        Res.coef.append(h)
-        m -= 1
-    Res.coef.pop(len(Res.coef)-1)
-    Res.coef.reverse()
-
-    return Res
+    return P1
 
 
 def NMR_P_P(p):
@@ -404,17 +394,16 @@ def NMR_P_P(p):
     q = DER_P_P(p)
     #Чтобы убрать появившиеся при дифференцировании p корни,
     #находим НОД между p и q
-    d = GCF_PP_P(p, q)
+    d = GCF_PP_P(p, q   )
     #Сокращаем p, после чего степень всех корней понижается до 1.
     ans = DIV_PP_P(p, d)
     return ans
 
 
 def main():
-    p1 = Polynom([rational.RationalNumber(1, 1), rational.RationalNumber(1, 1), rational.RationalNumber(3, 1),
-                                             rational.RationalNumber(6, 1)])
-    p2= Polynom([rational.RationalNumber(1, 1), rational.RationalNumber(1, 1), rational.RationalNumber(3, 1)])
-    print(GCF_PP_P(p1, p2))
+    p1 = Polynom([rational.RationalNumber(1, 1), rational.RationalNumber(0, 1), rational.RationalNumber(0, 1), rational.RationalNumber(0, 1), rational.RationalNumber(0, 1), rational.RationalNumber(0, 1), rational.RationalNumber(0, 1), rational.RationalNumber(0, 1), rational.RationalNumber(0, 1), rational.RationalNumber(0, 1), rational.RationalNumber(0, 1), rational.RationalNumber(1, 1),])
+    p2= Polynom([rational.RationalNumber(10, 1), rational.RationalNumber(1, 1)])
+    print(DIV_PP_P(p1, p2))
     
     
 if __name__ == "__main__":
