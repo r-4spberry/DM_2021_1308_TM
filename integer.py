@@ -39,10 +39,12 @@ class Integer:
         self.sign = "-" == x[0]
         if x[0] == "+" or x[0] == "-":
             x = x[1:]
-
         # избавление от ведущих нулей
         x.lstrip("0")
-
+        
+        if x[0] == "0":
+            self.sign = 0
+        
         # храним цифры в обратном порядке, так как добавлять их чаще всего надо
         # будет в начало, что затратно по времени
         x = x[::-1]
@@ -60,7 +62,7 @@ class Integer:
         
         Выполнил: Томилов Даниил
         """
-        s = ("-" if self.sign else "") + ''.join(map(str, self.digits[::-1]))
+        s = ("-" if self.sign and self.digits[-1]!=0 else "") + ''.join(map(str, self.digits[::-1]))
         return s
 
     def __repr__(self) -> str:
@@ -292,6 +294,8 @@ def DIV_ZZ_Z(i1,i2):
     otric2 = POZ_Z_D(i2)
     mod1 = ABS_Z_N(i1)
     mod2 = ABS_Z_N(i2)
+    if otric2 == 0:
+        raise ZeroDivisionError("Делитель не может быть равен нулю")
     #Если  числитель меншье знаменателя  и знак одинаковый возвращаем нуль
     if natnum.nat_cmp(mod1, mod2) == 1 and( (otric1==1 and otric2==1) or (otric1==2 and otric2==2)):
         return Integer(0)
