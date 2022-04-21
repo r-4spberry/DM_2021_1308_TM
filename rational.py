@@ -15,8 +15,8 @@ class RationalNumber():
         Рациональное число.
 
         Атрибуты класса:
-            numer -- числитель рационального числа
-            denom -- знаменатель рационального числа
+            numer -- натуральный числитель рационального числа.
+            denom -- натуральный знаменатель рационального числа.
             sign  -- знак рационального числа. 1 - отрицательное, 0 - положительное
     """
 
@@ -51,8 +51,10 @@ class RationalNumber():
 
         Выполнил: Пакулов Илья
         """
-        
-        s = ("-" if self.sign else "") + str(self.numer) + '/' + str(self.denom)
+        if self.numer != NaturalNumber(0):
+            s = ("-" if self.sign else "") + str(self.numer) + '/' + str(self.denom)
+        else:
+            s = "0"
         return s
 
     def __repr__(self) -> str:
