@@ -831,64 +831,64 @@ class App(customtkinter.CTk):
                 self.label_res_natnum.configure(
                     text=str(nat_cmp(NaturalNumber(self.entry_natnum1.get()), NaturalNumber(self.entry_natnum2.get()))))
             elif (self.radio_var_natnum.get() == 1):
-                self.label_res_natnum.configure(text=str(NaturalNumber(self.entry_natnum1.get()).is_zero()))
+                self.label_res_natnum.configure(wraplength=450, justify = "center", text=str(NaturalNumber(self.entry_natnum1.get()).is_zero()))
             elif (self.radio_var_natnum.get() == 2):
                 n = NaturalNumber(self.entry_natnum1.get())
                 n.add_1()
-                self.label_res_natnum.configure(text=str(n))
+                self.label_res_natnum.configure(wraplength=450, justify = "center", text=str(n))
             elif (self.radio_var_natnum.get() == 3):
-                self.label_res_natnum.configure(text=str(nat_sum(NaturalNumber(self.entry_natnum1.get()), NaturalNumber(self.entry_natnum2.get()))))
+                self.label_res_natnum.configure(wraplength=450, justify = "center", text=str(nat_sum(NaturalNumber(self.entry_natnum1.get()), NaturalNumber(self.entry_natnum2.get()))))
             elif (self.radio_var_natnum.get() == 4):
-                self.label_res_natnum.configure(text=str(nat_sub(NaturalNumber(self.entry_natnum1.get()), NaturalNumber(self.entry_natnum2.get()))))
+                self.label_res_natnum.configure(wraplength=450, justify = "center", text=str(nat_sub(NaturalNumber(self.entry_natnum1.get()), NaturalNumber(self.entry_natnum2.get()))))
             elif (self.radio_var_natnum.get() == 5):
-                self.label_res_natnum.configure(text=str(
+                self.label_res_natnum.configure(wraplength=450, justify = "center", text=str(
                     nat_mul_by_digit(NaturalNumber(str(self.entry_natnum1.get())), int(self.entry_natnum2.get()))))
             elif (self.radio_var_natnum.get() == 6):
-                self.label_res_natnum.configure(text=str(nat_mul_by_10_pow(NaturalNumber(str(self.entry_natnum1.get())),
+                self.label_res_natnum.configure(wraplength=450, justify = "center", text=str(nat_mul_by_10_pow(NaturalNumber(str(self.entry_natnum1.get())),
                                                                            NaturalNumber(
                                                                                str(self.entry_natnum2.get())))))
             elif (self.radio_var_natnum.get() == 7):
-                self.label_res_natnum.configure(text=str(nat_mul(NaturalNumber(str(self.entry_natnum1.get())),
+                self.label_res_natnum.configure(wraplength=450, justify = "center", text=str(nat_mul(NaturalNumber(str(self.entry_natnum1.get())),
                                                                  NaturalNumber(str(self.entry_natnum2.get())))))
             elif (self.radio_var_natnum.get() == 8):
-                self.label_res_natnum.configure(text=str(SUB_NDN_N(NaturalNumber(str(self.entry_natnum1.get())),
+                self.label_res_natnum.configure(wraplength=450, justify = "center", text=str(SUB_NDN_N(NaturalNumber(str(self.entry_natnum1.get())),
                                                                    NaturalNumber(str(self.entry_natnum2.get())),
                                                                    int(self.entry_natnum3.get()))))
             elif (self.radio_var_natnum.get() == 9):
-                self.label_res_natnum.configure(text=str(DIV_NN_Dk(NaturalNumber(str(self.entry_natnum1.get())),
+                self.label_res_natnum.configure(wraplength=450, justify = "center", text=str(DIV_NN_Dk(NaturalNumber(str(self.entry_natnum1.get())),
                                                                    NaturalNumber(str(self.entry_natnum2.get())))))
             elif (self.radio_var_natnum.get() == 10):
-                self.label_res_natnum.configure(text=str(nat_div(NaturalNumber(str(self.entry_natnum1.get())),
+                self.label_res_natnum.configure(wraplength=450, justify = "center", text=str(nat_div(NaturalNumber(str(self.entry_natnum1.get())),
                                                                  NaturalNumber(str(self.entry_natnum2.get())))))
             elif (self.radio_var_natnum.get() == 11):
-                self.label_res_natnum.configure(text=str(nat_mod(NaturalNumber(str(self.entry_natnum1.get())),
+                self.label_res_natnum.configure(wraplength=450, justify = "center", text=str(nat_mod(NaturalNumber(str(self.entry_natnum1.get())),
                                                                  NaturalNumber(str(self.entry_natnum2.get())))))
             elif (self.radio_var_natnum.get() == 12):
-                self.label_res_natnum.configure(text=str(nat_gcd(NaturalNumber(str(self.entry_natnum1.get())),
+                self.label_res_natnum.configure(wraplength=450, justify = "center", text=str(nat_gcd(NaturalNumber(str(self.entry_natnum1.get())),
                                                                  NaturalNumber(str(self.entry_natnum2.get())))))
             elif (self.radio_var_natnum.get() == 13):
-                self.label_res_natnum.configure(text=str(nat_lcm(NaturalNumber(str(self.entry_natnum1.get())),
+                self.label_res_natnum.configure(wraplength=450, justify = "center", text=str(nat_lcm(NaturalNumber(str(self.entry_natnum1.get())),
                                                                  NaturalNumber(str(self.entry_natnum2.get())))))
         except ValueError:
-            self.label_res_natnum.configure(text="Неверное значение переменной!")
+            self.label_res_natnum.configure(wraplength=450, justify = "center", text="Неверное значение переменной!")
         except TypeError:
-            self.label_res_natnum.configure(text="Неверный тип данных!")
+            self.label_res_natnum.configure(wraplength=450, justify = "center", text="Неверный тип данных!")
         except ZeroDivisionError:
-            self.label_res_natnum.configure(text="Деление на ноль!")
+            self.label_res_natnum.configure(wraplength=450, justify = "center", text="Деление на ноль!")
         print("Нажата кнопка для вычисления натуральных чисел")
 
     def button_calculate_integer_event(self):
         try:
             if (self.radio_var_integer.get() == 0):
-                self.label_res_integer.configure(text=str(ABS_Z_N(Integer(self.entry_integer1.get()))))
+                self.label_res_integer.configure(wraplength=450, justify = "center", text=str(ABS_Z_N(Integer(self.entry_integer1.get()))))
             elif (self.radio_var_integer.get() == 1):
-                self.label_res_integer.configure(text=str(POZ_Z_D(Integer(self.entry_integer1.get()))))
+                self.label_res_integer.configure(wraplength=450, justify = "center", text=str(POZ_Z_D(Integer(self.entry_integer1.get()))))
             elif (self.radio_var_integer.get() == 2):
-                self.label_res_integer.configure(text=str(MUL_ZM_Z(Integer(self.entry_integer1.get()))))
+                self.label_res_integer.configure(wraplength=450, justify = "center", text=str(MUL_ZM_Z(Integer(self.entry_integer1.get()))))
             elif (self.radio_var_integer.get() == 3):
-                self.label_res_integer.configure(text=str(TRANS_N_Z(NaturalNumber(self.entry_integer1.get()))))
+                self.label_res_integer.configure(wraplength=450, justify = "center", text=str(TRANS_N_Z(NaturalNumber(self.entry_integer1.get()))))
             elif (self.radio_var_integer.get() == 4):
-                self.label_res_integer.configure(text=str(TRANS_Z_N(Integer(self.entry_integer1.get()))))
+                self.label_res_integer.configure(wraplength=450, justify = "center", text=str(TRANS_Z_N(Integer(self.entry_integer1.get()))))
             elif (self.radio_var_integer.get() == 5):
                 self.label_res_integer.configure(
                     text=str(ADD_ZZ_Z(Integer(self.entry_integer1.get()), Integer(self.entry_integer2.get()))))
@@ -905,11 +905,11 @@ class App(customtkinter.CTk):
                 self.label_res_integer.configure(
                     text=str(MOD_ZZ_Z(Integer(self.entry_integer1.get()), Integer(self.entry_integer2.get()))))
         except ValueError:
-            self.label_res_integer.configure(text="Неверное значение переменной!")
+            self.label_res_integer.configure(wraplength=450, justify = "center", text="Неверное значение переменной!")
         except TypeError:
-            self.label_res_integer.configure(text="Неверный тип данных!")
+            self.label_res_integer.configure(wraplength=450, justify = "center", text="Неверный тип данных!")
         except ZeroDivisionError:
-            self.label_res_integer.configure(text="Деление на ноль!")
+            self.label_res_integer.configure(wraplength=450, justify = "center", text="Деление на ноль!")
         print("Нажата кнопка для вычисления целых чисел")
 
     def button_calculate_rational_event(self):
@@ -921,32 +921,32 @@ class App(customtkinter.CTk):
                 self.label_res_rational.configure(
                     text=str(INT_Q_B(RationalNumber(self.entry_rational1_num.get(), self.entry_rational1_den.get()))))
             elif (self.radio_var_rational.get() == 2):
-                self.label_res_rational.configure(text=str(TRANS_Z_Q(Integer(self.entry_rational1.get()))))
+                self.label_res_rational.configure(wraplength=450, justify = "center", text=str(TRANS_Z_Q(Integer(self.entry_rational1.get()))))
             elif (self.radio_var_rational.get() == 3):
                 self.label_res_rational.configure(
                     text=str(TRANS_Q_Z(RationalNumber(self.entry_rational1_num.get(), self.entry_rational1_den.get()))))
             elif (self.radio_var_rational.get() == 4):
-                self.label_res_rational.configure(text=str(
+                self.label_res_rational.configure(wraplength=450, justify = "center", text=str(
                     ADD_QQ_Q(RationalNumber(self.entry_rational1_num.get(), self.entry_rational1_den.get()),
                              RationalNumber(self.entry_rational2_num.get(), self.entry_rational2_den.get()))))
             elif (self.radio_var_rational.get() == 5):
-                self.label_res_rational.configure(text=str(
+                self.label_res_rational.configure(wraplength=450, justify = "center", text=str(
                     SUB_QQ_Q(RationalNumber(self.entry_rational1_num.get(), self.entry_rational1_den.get()),
                              RationalNumber(self.entry_rational2_num.get(), self.entry_rational2_den.get()))))
             elif (self.radio_var_rational.get() == 6):
-                self.label_res_rational.configure(text=str(
+                self.label_res_rational.configure(wraplength=450, justify = "center", text=str(
                     MUL_QQ_Q(RationalNumber(self.entry_rational1_num.get(), self.entry_rational1_den.get()),
                              RationalNumber(self.entry_rational2_num.get(), self.entry_rational2_den.get()))))
             elif (self.radio_var_rational.get() == 7):
-                self.label_res_rational.configure(text=str(
+                self.label_res_rational.configure(wraplength=450, justify = "center", text=str(
                     DIV_QQ_Q(RationalNumber(self.entry_rational1_num.get(), self.entry_rational1_den.get()),
                              RationalNumber(self.entry_rational2_num.get(), self.entry_rational2_den.get()))))
         except ValueError:
-            self.label_res_rational.configure(text="Неверное значение переменной!")
+            self.label_res_rational.configure(wraplength=450, justify = "center", text="Неверное значение переменной!")
         except TypeError:
-            self.label_res_rational.configure(text="Неверный тип данных!")
+            self.label_res_rational.configure(wraplength=450, justify = "center", text="Неверный тип данных!")
         except ZeroDivisionError:
-            self.label_res_rational.configure(text="Деление на ноль!")
+            self.label_res_rational.configure(wraplength=450, justify = "center", text="Деление на ноль!")
         print("Нажата кнопка для вычисления рациональных чисел")
 
     def button_calculate_polynual_event(self):
@@ -962,47 +962,47 @@ class App(customtkinter.CTk):
         print(ratio_arr1, ratio_arr2)
         try:
             if (self.radio_var_polynual.get() == 0):
-                self.label_res_polynual.configure(
+                self.label_res_polynual.configure(wraplength=450, justify = "center",
                     text=str(ADD_PP_P(Polynom(ratio_arr1), Polynom(ratio_arr2))))
             elif (self.radio_var_polynual.get() == 1):
-                self.label_res_polynual.configure(
+                self.label_res_polynual.configure(wraplength=450, justify = "center",
                     text=str(SUB_PP_P(Polynom(ratio_arr1), Polynom(ratio_arr2))))
             elif (self.radio_var_polynual.get() == 2):
-                self.label_res_polynual.configure(
+                self.label_res_polynual.configure(wraplength=450, justify = "center",
                     text=str(MUL_PQ_P(Polynom(ratio_arr1),
                                       RationalNumber(self.entry_rational_num.get(), self.entry_rational_den.get()))))
             elif (self.radio_var_polynual.get() == 3):
                 print(self.entry_polynual2.get())
-                self.label_res_polynual.configure(
+                self.label_res_polynual.configure(wraplength=450, justify = "center",
                     text=str(MUL_Pxk_P(Polynom(ratio_arr1), NaturalNumber(self.entry_polynual3.get()))))
             elif (self.radio_var_polynual.get() == 4):
-                self.label_res_polynual.configure(text=str(LED_P_Q(Polynom(ratio_arr1))))
+                self.label_res_polynual.configure(wraplength=450, justify = "center",text=str(LED_P_Q(Polynom(ratio_arr1))))
             elif (self.radio_var_polynual.get() == 5):
-                self.label_res_polynual.configure(text=str(DEG_P_N(Polynom(ratio_arr1))))
+                self.label_res_polynual.configure(wraplength=450, justify = "center",text=str(DEG_P_N(Polynom(ratio_arr1))))
             elif (self.radio_var_polynual.get() == 6):
-                self.label_res_polynual.configure(text=str(FAC_P_Q(Polynom(ratio_arr1))[1]))
+                self.label_res_polynual.configure(wraplength=450, justify = "center",text=str(FAC_P_Q(Polynom(ratio_arr1))[1]))
             elif (self.radio_var_polynual.get() == 7):
-                self.label_res_polynual.configure(
+                self.label_res_polynual.configure(wraplength=450, justify = "center",
                     text=str(MUL_PP_P(Polynom(ratio_arr1), Polynom(ratio_arr2))))
             elif (self.radio_var_polynual.get() == 8):
-                self.label_res_polynual.configure(
+                self.label_res_polynual.configure(wraplength=450, justify = "center",
                     text=str(DIV_PP_P(Polynom(ratio_arr1), Polynom(ratio_arr2))))
             elif (self.radio_var_polynual.get() == 9):
-                self.label_res_polynual.configure(
+                self.label_res_polynual.configure(wraplength=450, justify = "center",
                     text=str(MOD_PP_P(Polynom(ratio_arr1), Polynom(ratio_arr2))))
             elif (self.radio_var_polynual.get() == 10):
-                self.label_res_polynual.configure(
+                self.label_res_polynual.configure(wraplength=450, justify = "center",
                     text=str(GCF_PP_P(Polynom(ratio_arr1), Polynom(ratio_arr2))))
             elif (self.radio_var_polynual.get() == 11):
-                self.label_res_polynual.configure(text=str(DER_P_P(Polynom(ratio_arr1))))
+                self.label_res_polynual.configure(wraplength=450, justify = "center",text=str(DER_P_P(Polynom(ratio_arr1))))
             elif (self.radio_var_polynual.get() == 12):
-                self.label_res_polynual.configure(text=str(NMR_P_P(Polynom(ratio_arr1))))
+                self.label_res_polynual.configure(wraplength=450, justify = "center",text=str(NMR_P_P(Polynom(ratio_arr1))))
         except ValueError:
-            self.label_res_polynual.configure(text="Неверное значение переменной!")
+            self.label_res_polynual.configure(wraplength=450, justify = "center",text="Неверное значение переменной!")
         except TypeError:
-            self.label_res_polynual.configure(text="Неверный тип данных!")
+            self.label_res_polynual.configure(wraplength=450, justify = "center",text="Неверный тип данных!")
         except ZeroDivisionError:
-            self.label_res_polynual.configure(text="Деление на ноль!")
+            self.label_res_polynual.configure(wraplength=450, justify = "center",text="Деление на ноль!")
         print("Нажата кнопка для вычисления многочленов")
 
 
@@ -1023,11 +1023,11 @@ class App(customtkinter.CTk):
 
     def radio_natnums_event_2(self):
         self.radio_natnums_event1()
-        self.label_info_natnum1.configure(text="Добавление единицы к натуральному\n числу")
+        self.label_info_natnum1.configure(wraplength=450, justify = "center", text="Добавление единицы к натуральному\n числу")
 
     def radio_natnums_event_3(self):
         self.radio_natnums_event2()
-        self.label_info_natnum1.configure(text="Сложение натуральных чисел")
+        self.label_info_natnum1.configure(wraplength=450, justify = "center", text="Сложение натуральных чисел")
 
     def radio_natnums_event_4(self):
         self.radio_natnums_event2()
@@ -1036,15 +1036,15 @@ class App(customtkinter.CTk):
 
     def radio_natnums_event_5(self):
         self.radio_natnums_event2()
-        self.label_info_natnum1.configure(text="Умножение натурального числа \nна цифру")
+        self.label_info_natnum1.configure(wraplength=450, justify = "center", text="Умножение натурального числа \nна цифру")
 
     def radio_natnums_event_6(self):
         self.radio_natnums_event2()
-        self.label_info_natnum1.configure(text="Умножение натурального числа \nна 10^k")
+        self.label_info_natnum1.configure(wraplength=450, justify = "center", text="Умножение натурального числа \nна 10^k")
 
     def radio_natnums_event_7(self):
         self.radio_natnums_event2()
-        self.label_info_natnum1.configure(text="Умножение натуральных чисел")
+        self.label_info_natnum1.configure(wraplength=450, justify = "center", text="Умножение натуральных чисел")
 
     def radio_natnums_event_8(self):
         self.radio_natnums_event3()
@@ -1068,17 +1068,17 @@ class App(customtkinter.CTk):
 
     def radio_natnums_event_12(self):
         self.radio_natnums_event2()
-        self.label_info_natnum1.configure(text="НОД натуральных чисел")
+        self.label_info_natnum1.configure(wraplength=450, justify = "center", text="НОД натуральных чисел")
 
     def radio_natnums_event_13(self):
         self.radio_natnums_event2()
-        self.label_info_natnum1.configure(text="НОК натуральных чисел")
+        self.label_info_natnum1.configure(wraplength=450, justify = "center", text="НОК натуральных чисел")
 
     # =============================================================================================================
 
     def radio_integer_event_0(self):
         self.radio_integer_event1()
-        self.label_info_integer1.configure(text="Абсолютная величина числа, \nрезультат - натуральное")
+        self.label_info_integer1.configure(wraplength=450, justify = "center", text="Абсолютная величина числа, \nрезультат - натуральное")
 
     def radio_integer_event_1(self):
         self.radio_integer_event1()
@@ -1087,41 +1087,41 @@ class App(customtkinter.CTk):
 
     def radio_integer_event_2(self):
         self.radio_integer_event1()
-        self.label_info_integer1.configure(text="Умножение целого на (-1)")
+        self.label_info_integer1.configure(wraplength=450, justify = "center", text="Умножение целого на (-1)")
 
     def radio_integer_event_3(self):
         self.radio_integer_event1()
-        self.label_info_integer1.configure(text="Преобразование натурального в целое")
+        self.label_info_integer1.configure(wraplength=450, justify = "center", text="Преобразование натурального в целое")
 
     def radio_integer_event_4(self):
         self.radio_integer_event1()
-        self.label_info_integer1.configure(text="Преобразование целого неотрицательного\n в натуральное")
+        self.label_info_integer1.configure(wraplength=450, justify = "center", text="Преобразование целого неотрицательного\n в натуральное")
 
     def radio_integer_event_5(self):
         self.radio_integer_event2()
-        self.label_info_integer1.configure(text="Сложение целых чисел")
+        self.label_info_integer1.configure(wraplength=450, justify = "center", text="Сложение целых чисел")
 
     def radio_integer_event_6(self):
         self.radio_integer_event2()
-        self.label_info_integer1.configure(text="Вычитание целых чисел")
+        self.label_info_integer1.configure(wraplength=450, justify = "center", text="Вычитание целых чисел")
 
     def radio_integer_event_7(self):
         self.radio_integer_event2()
-        self.label_info_integer1.configure(text="Умножение целых чисел")
+        self.label_info_integer1.configure(wraplength=450, justify = "center", text="Умножение целых чисел")
 
     def radio_integer_event_8(self):
         self.radio_integer_event2()
-        self.label_info_integer1.configure(text="Частное от деления целого на целое \n(делитель отличен от нуля)")
+        self.label_info_integer1.configure(wraplength=450, justify = "center", text="Частное от деления целого на целое \n(делитель отличен от нуля)")
 
     def radio_integer_event_9(self):
         self.radio_integer_event2()
-        self.label_info_integer1.configure(text="Остаток от деления целого на целое \n(делитель отличен от нуля)")
+        self.label_info_integer1.configure(wraplength=450, justify = "center", text="Остаток от деления целого на целое \n(делитель отличен от нуля)")
 
     # =============================================================================================================
 
     def radio_rational_event_0(self):
         self.radio_rational_event1()
-        self.label_info_rational1.configure(text="Сокращение дроби")
+        self.label_info_rational1.configure(wraplength=450, justify = "center", text="Сокращение дроби")
 
     def radio_rational_event_1(self):
         self.radio_rational_event1()
@@ -1130,53 +1130,53 @@ class App(customtkinter.CTk):
 
     def radio_rational_event_2(self):
         self.radio_rational_eventZ()
-        self.label_info_rational1.configure(text="Преобразование целого в дробное")
+        self.label_info_rational1.configure(wraplength=450, justify = "center", text="Преобразование целого в дробное")
 
     def radio_rational_event_3(self):
         self.radio_rational_event1()
-        self.label_info_rational1.configure(text="Преобразование дробного в целое \n(если знаменатель равен 1)")
+        self.label_info_rational1.configure(wraplength=450, justify = "center", text="Преобразование дробного в целое \n(если знаменатель равен 1)")
 
     def radio_rational_event_4(self):
         self.radio_rational_event2()
-        self.label_info_rational1.configure(text="Сложение дробей")
+        self.label_info_rational1.configure(wraplength=450, justify = "center", text="Сложение дробей")
 
     def radio_rational_event_5(self):
         self.radio_rational_event2()
-        self.label_info_rational1.configure(text="Вычитание дробей")
+        self.label_info_rational1.configure(wraplength=450, justify = "center", text="Вычитание дробей")
 
     def radio_rational_event_6(self):
         self.radio_rational_event2()
-        self.label_info_rational1.configure(text="Умножение дробей")
+        self.label_info_rational1.configure(wraplength=450, justify = "center", text="Умножение дробей")
 
     def radio_rational_event_7(self):
         self.radio_rational_event2()
-        self.label_info_rational1.configure(text="Деление дробей (делитель \nотличен от нуля)")
+        self.label_info_rational1.configure(wraplength=450, justify = "center", text="Деление дробей (делитель \nотличен от нуля)")
 
     # =============================================================================================================
 
     def radio_polynual_event_0(self):
         self.radio_polynual_event2()
-        self.label_info_polynual1.configure(text="Сложение многочленов")
+        self.label_info_polynual1.configure(wraplength=450, justify = "center", text="Сложение многочленов")
 
     def radio_polynual_event_1(self):
         self.radio_polynual_event2()
-        self.label_info_polynual1.configure(text="Вычитание многочленов")
+        self.label_info_polynual1.configure(wraplength=450, justify = "center", text="Вычитание многочленов")
 
     def radio_polynual_event_2(self):
         self.radio_polynual_event_q()
-        self.label_info_polynual1.configure(text="Умножение многочлена на рациональное \nчисло")
+        self.label_info_polynual1.configure(wraplength=450, justify = "center", text="Умножение многочлена на рациональное \nчисло")
 
     def radio_polynual_event_3(self):
         self.radio_polynual_event_k()
-        self.label_info_polynual1.configure(text="Умножение многочлена на x^k")
+        self.label_info_polynual1.configure(wraplength=450, justify = "center", text="Умножение многочлена на x^k")
 
     def radio_polynual_event_4(self):
         self.radio_polynual_event1()
-        self.label_info_polynual1.configure(text="Старший коэффициент многочлена")
+        self.label_info_polynual1.configure(wraplength=450, justify = "center", text="Старший коэффициент многочлена")
 
     def radio_polynual_event_5(self):
         self.radio_polynual_event1()
-        self.label_info_polynual1.configure(text="Степень многочлена")
+        self.label_info_polynual1.configure(wraplength=450, justify = "center", text="Степень многочлена")
 
     def radio_polynual_event_6(self):
         self.radio_polynual_event1()
@@ -1185,27 +1185,27 @@ class App(customtkinter.CTk):
 
     def radio_polynual_event_7(self):
         self.radio_polynual_event2()
-        self.label_info_polynual1.configure(text="Умножение многочленов")
+        self.label_info_polynual1.configure(wraplength=450, justify = "center", text="Умножение многочленов")
 
     def radio_polynual_event_8(self):
         self.radio_polynual_event2()
-        self.label_info_polynual1.configure(text="Частное от деления многочлена на \nмногочлен при делении с остатком")
+        self.label_info_polynual1.configure(wraplength=450, justify = "center", text="Частное от деления многочлена на \nмногочлен при делении с остатком")
 
     def radio_polynual_event_9(self):
         self.radio_polynual_event2()
-        self.label_info_polynual1.configure(text="Остаток от деления многочлена на \nмногочлен при делении с остатком")
+        self.label_info_polynual1.configure(wraplength=450, justify = "center", text="Остаток от деления многочлена на \nмногочлен при делении с остатком")
 
     def radio_polynual_event_10(self):
         self.radio_polynual_event2()
-        self.label_info_polynual1.configure(text="НОД многочленов")
+        self.label_info_polynual1.configure(wraplength=450, justify = "center", text="НОД многочленов")
 
     def radio_polynual_event_11(self):
         self.radio_polynual_event1()
-        self.label_info_polynual1.configure(text="Производная многочлена")
+        self.label_info_polynual1.configure(wraplength=450, justify = "center", text="Производная многочлена")
 
     def radio_polynual_event_12(self):
         self.radio_polynual_event1()
-        self.label_info_polynual1.configure(text="Преобразование многочлена — кратные \nкорни в простые")
+        self.label_info_polynual1.configure(wraplength=450, justify = "center", text="Преобразование многочлена — кратные \nкорни в простые")
 
 
     # =============================================================================================================
